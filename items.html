@@ -2,10 +2,21 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>title</title>
+        <title>Item Page</title>
     </head>
     <body>
-        <span id="output"></span>
+        <h2>Item Page</h2>
+        <div id="inputArea">
+            <form id="inputItem">
+                <label>Item Name (req)</label><input id="newName" type="text" /></label>
+                <label>Item SKU (req)<input id="newSku" type="text" /></label>
+                <label>Quantity in Stock (req)<input type="number" id="newQuant" /></label>
+                <label>Price (req)<input type="number" id="newPrice" /></label>
+                <input id="addItem" type="button" value="Add New Item" />
+            </form>
+        </div>
+
+        <div id="outputArea"></div>
         <script src="items.js"></script>
     </body>
 </html>
