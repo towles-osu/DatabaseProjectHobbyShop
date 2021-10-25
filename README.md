@@ -6,11 +6,18 @@ To Do:
 Front-end Implementations:
 
 Customer Addresses page
+  Deals with adding customers/addresses and can edit them
 
-Addresses page
+AddressNotes editting page
+  Deals with adding and editting notes about addresses
+
+Zones page
+  creating zones, finding addresses without zones, updating address zones
 
 SoldItems page
 
 Items page
 
-Zones page
+Deliver Notes page
+
+
