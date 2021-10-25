@@ -1,0 +1,14 @@
+table {
+    table-layout: auto;
+    border-style: solid;
+    
+}
+thead td {
+    border-style: solid;
+    text-emphasis: circle;
+    padding: 10px;
+    font-weight: bold;
+}
+td {
+    text-align: center;
+}
