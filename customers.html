@@ -5,7 +5,31 @@
         <title>title</title>
     </head>
     <body>
-        <span id="output"></span>
+        <h2>Item Page</h2>
+        <h4>Add Items</h4>
+        <div id="inputArea">
+            <form id="inputItem">
+                <input id="newName" type="text" style="width: 150px" maxlength='30' placeholder="First Name"/>
+                <input id="newSku" type="text" style="width: 150px" maxlength='30' placeholder="Last Name"/>
+                <input type="number" id="newQuant" style="width: 100px" maxlength='10' placeholder="Phone #"/>
+                <input type="email" id="newEmail" style="width: 150px" maxlength='30' placeholder="Email"/>
+                <input type="number" id="newStreetAddress" style="width: 150px" maxlength='30' placeholder="Street Address"/>
+                <input type="text" id="newCity" style="width: 150px" maxlength='20' placeholder="City"/>
+                <input type="text" id="newState" style="width: 30px" maxlength='2' placeholder="State"/>
+                <input type="number" id="newPrice" style="width: 50px" maxlength='5' placeholder="Zip"/>
+                <input type="number" id="newPrice" style="width: 40px" maxlength='5' placeholder="Unit"/>
+                <input id="addItem" type="button" value="Add New Item" />
+            </form>
+        </div>
+
+        <div id="queryArea">
+            <h4>Filter Items</h4>
+
+        </div>
+
+        <div id="outputArea">
+            <h4>Item Display</h4>
+        </div>
         <script src="customers.js"></script>
     </body>
 </html>
