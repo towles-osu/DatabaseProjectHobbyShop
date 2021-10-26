@@ -133,11 +133,12 @@ function clickCheck(event) {
     else if (event.srcElement.value == "Add New Item") {
         let inputEl = event.srcElement.parentNode;
         console.log(inputEl.childNodes);
+        console.log(inputEl.childNodes[1].value)
         let itemObj = {
-            name: inputEl.childNodes[1].childNodes[1].value,
-            sku: inputEl.childNodes[3].childNodes[1].value,
-            quant: inputEl.childNodes[5].childNodes[1].value,
-            price: inputEl.childNodes[7].childNodes[1].value
+            name: inputEl.childNodes[1].value,
+            sku: inputEl.childNodes[3].value,
+            quant: inputEl.childNodes[5].value,
+            price: inputEl.childNodes[7].value
         }
         addTableRow(document.getElementById("displayTable"), itemObj);
     }

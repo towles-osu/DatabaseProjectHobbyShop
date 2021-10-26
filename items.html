@@ -12,10 +12,10 @@
         <h4 > Add Items</h4 >
         <div id="inputArea" >
         <form id="inputItem" >
-        <label > Item Name (req)<input id="newName" type="text" / > </label >
-        <label > Item SKU (req)<input id="newSku" type="text" / > </label >
-        <label > Quantity in Stock (req)<input type="number" id="newQuant" / > </label >
-        <label > Price (req)<input type="number" id="newPrice" / > </label >
+        <input id="newName" type="text" placeholder="Item Name" / >
+        <input id="newSku" type="text" placeholder="Item SKU" / >
+        <input type="number" id="newQuant" style="width: 75px" placeholder="Quantity" / >
+        <input type="number" id="newPrice"style="width: 75px" placeholder="Price" / >
         <input id="addItem" type="button" value="Add New Item" / >
         </form >
         </div >
@@ -23,7 +23,7 @@
         <div id="queryArea" >
         <h4 > Filter Items by Quantity in Stock</h4 >
         <form id="filterItems" >
-        <label > Desired Quantity<input id="filterQuant" type="number" / >
+        <label ><input id="filterQuant" type="number" style="width: 120px" placeholder="Desired Quantity"/ >
         <input type="button" id="greaterFilter" value="This amount or more" / >
         <input type="button" id="lessFilter" value="This amount or less" / > </label >
 
