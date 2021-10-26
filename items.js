@@ -44,32 +44,6 @@ function initDisplay() {
     //THIS NEEDS TO CHANGE WHEN WE ADD BACKEND
     for (item in sampleData) {
         addTableRow(displayTable, sampleData[item]);
-
-        //console.log(item)
-        //let newRow = document.createElement("tr");
-        //let rowCol = document.createElement("td");
-        //rowCol.innerText = sampleData[item].name;
-        //newRow.append(rowCol);
-        //rowCol = document.createElement("td");
-        //rowCol.innerText = sampleData[item].sku;
-        //newRow.append(rowCol);
-        //rowCol = document.createElement("td");
-        //rowCol.innerText = sampleData[item].quant;
-        //newRow.append(rowCol);
-        //rowCol = document.createElement("td");
-        //rowCol.innerText = sampleData[item].price;
-        //newRow.append(rowCol);
-        //rowCol = document.createElement("td");
-        //let button = document.createElement("input");
-        //button.type = "button";
-        //button.value = "edit";
-        //rowCol.append(button);
-        //button = document.createElement("input");
-        //button.type = "button";
-        //button.value = "delete";
-        //rowCol.append(button);
-        //newRow.append(rowCol);
-        //displayTable.append(newRow);
     }
 }
 
