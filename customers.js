@@ -138,6 +138,13 @@ function clickCheck(event) {
         curBox.innerText = "";
         curBox.append(newCon);
 
+        col.firstChild.remove();
+        col.firstChild.remove();
+        newCon = document.createElement("input");
+        newCon.type = "button";
+        newCon.value = "save";
+        col.append(newCon);
+
     }
     else if (event.srcElement.value == "save") {
         let col = event.srcElement.parentNode;
