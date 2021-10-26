@@ -1,10 +1,15 @@
 //Data not stored here, just used to initialize some sample data
+
 const sampleData = [
-    { firstName: "Fred", lastName: "Jones", phone: "9715551020", email: "fredj@gmail.com", 
-    address: "1234 NW Main St", city: "Portland", state: "OR", zip: "97236", unit: ""},
-    { firstName: "Mary", lastName: "Smith", phone: "9715553470", email: "marys@gmail.com", 
-    address: "4321 SW Broadway Ave", city: "Portland", state: "OR", zip: "97233", unit: "3"}
+    { firstName: "Fred", lastName: "Jones", phone: "9715551020", email: "fredj@gmail.com", cust_id: 1, 
+    address: "1234 NW Main St", city: "Portland", state: "OR", zip: "97236", unit: "", add_id: 1},
+    { firstName: "Mary", lastName: "Smith", phone: "9715553470", email: "marys@gmail.com", cust_id: 2, 
+    address: "4321 SW Broadway Ave", city: "Portland", state: "OR", zip: "97233", unit: "3", add_id: 2}
 ];
+
+//just for making fake data work.
+let cust_id_count = 3;
+let add_id_count = 3;
 
 document.addEventListener('DOMContentLoaded', initialize);
 
@@ -23,6 +28,9 @@ function addTableRow(theTable, itemObj) {
     rowCol.innerText = itemObj.email;
     newRow.append(rowCol);
     rowCol = document.createElement("td");
+    rowCol.innerText = itemObj.cust_id;
+    newRow.append(rowCol);
+    rowCol = document.createElement("td");
     rowCol.innerText = itemObj.address;
     newRow.append(rowCol);
     rowCol = document.createElement("td");
@@ -36,6 +44,9 @@ function addTableRow(theTable, itemObj) {
     newRow.append(rowCol);
     rowCol = document.createElement("td");
     rowCol.innerText = itemObj.unit;
+    newRow.append(rowCol);
+    rowCol = document.createElement("td");
+    rowCol.innerText = itemObj.add_id;
     newRow.append(rowCol);
     rowCol = document.createElement("td");
     rowCol.innerText = "Zone Filler";
@@ -62,6 +73,22 @@ function clickCheck(event) {
         let curBox = row.firstChild;
         let newCon = document.createElement("input");
         newCon.type = "text";
+        newCon.value = curBox.innerText;
+        curBox.innerText = "";
+        curBox.append(newCon);
+
+        curBox = curBox.nextSibling;
+        newCon = document.createElement("input");
+        newCon.type = "text";
+        newCon.style = "width: 30px";
+        newCon.value = curBox.innerText;
+        curBox.innerText = "";
+        curBox.append(newCon);
+
+        curBox = curBox.nextSibling;
+        newCon = document.createElement("input");
+        newCon.type = "text";
+        newCon.style = "width: 30px";
         newCon.value = curBox.innerText;
         curBox.innerText = "";
         curBox.append(newCon);
@@ -200,6 +227,16 @@ function clickCheck(event) {
         curBox.innerText = newCon.value;
         newCon.remove();
 
+        curBox = curBox.nextSibling;
+        newCon = curBox.firstChild;
+        curBox.innerText = newCon.value;
+        newCon.remove();
+
+        curBox = curBox.nextSibling;
+        newCon = curBox.firstChild;
+        curBox.innerText = newCon.value;
+        newCon.remove();
+
         col.firstChild.remove();
         let button = document.createElement("input");
         button.type = "button";
@@ -217,7 +254,6 @@ function clickCheck(event) {
     }
     else if (event.srcElement.value == "Add New Row") {
         let inputEl = event.srcElement.parentNode;
-        console.log(inputEl.childNodes);
         let itemObj = {
             firstName: inputEl.childNodes[1].value,
             lastName: inputEl.childNodes[3].value,
@@ -227,8 +263,12 @@ function clickCheck(event) {
             city: inputEl.childNodes[11].value,
             state: inputEl.childNodes[13].value,
             zip: inputEl.childNodes[15].value,
-            unit: inputEl.childNodes[17].value
+            unit: inputEl.childNodes[17].value,
+            cust_id: cust_id_count,
+            add_id: add_id_count
         }
+        cust_id_count++;
+        add_id_count++;
         addTableRow(document.getElementById("displayTable"), itemObj);
     };
 };
