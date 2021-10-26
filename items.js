@@ -1,10 +1,38 @@
 
+//Data not stored here, just used to initialize some sample data
 const sampleData = [
     { name: "Magic Booster", sku: 1, quant: 50, price: 5 },
     { name: "Dragon Statue", sku:2, quant:4, price:40.50}
 ];
 
 document.addEventListener('DOMContentLoaded', initialize);
+
+function addTableRow(theTable, itemObj) {
+    let newRow = document.createElement("tr");
+    let rowCol = document.createElement("td");
+    rowCol.innerText = itemObj.name;
+    newRow.append(rowCol);
+    rowCol = document.createElement("td");
+    rowCol.innerText = itemObj.sku;
+    newRow.append(rowCol);
+    rowCol = document.createElement("td");
+    rowCol.innerText = itemObj.quant;
+    newRow.append(rowCol);
+    rowCol = document.createElement("td");
+    rowCol.innerText = itemObj.price;
+    newRow.append(rowCol);
+    rowCol = document.createElement("td");
+    let button = document.createElement("input");
+    button.type = "button";
+    button.value = "edit";
+    rowCol.append(button);
+    button = document.createElement("input");
+    button.type = "button";
+    button.value = "delete";
+    rowCol.append(button);
+    newRow.append(rowCol);
+    theTable.append(newRow);
+}
 
 
 //pulls basic info to display from database and inputs it
@@ -15,31 +43,33 @@ function initDisplay() {
 
     //THIS NEEDS TO CHANGE WHEN WE ADD BACKEND
     for (item in sampleData) {
-        console.log(item)
-        let newRow = document.createElement("tr");
-        let rowCol = document.createElement("td");
-        rowCol.innerText = sampleData[item].name;
-        newRow.append(rowCol);
-        rowCol = document.createElement("td");
-        rowCol.innerText = sampleData[item].sku;
-        newRow.append(rowCol);
-        rowCol = document.createElement("td");
-        rowCol.innerText = sampleData[item].quant;
-        newRow.append(rowCol);
-        rowCol = document.createElement("td");
-        rowCol.innerText = sampleData[item].price;
-        newRow.append(rowCol);
-        rowCol = document.createElement("td");
-        let button = document.createElement("input");
-        button.type = "button";
-        button.value = "edit";
-        rowCol.append(button);
-        button = document.createElement("input");
-        button.type = "button";
-        button.value = "delete";
-        rowCol.append(button);
-        newRow.append(rowCol);
-        displayTable.append(newRow);
+        addTableRow(displayTable, sampleData[item]);
+
+        //console.log(item)
+        //let newRow = document.createElement("tr");
+        //let rowCol = document.createElement("td");
+        //rowCol.innerText = sampleData[item].name;
+        //newRow.append(rowCol);
+        //rowCol = document.createElement("td");
+        //rowCol.innerText = sampleData[item].sku;
+        //newRow.append(rowCol);
+        //rowCol = document.createElement("td");
+        //rowCol.innerText = sampleData[item].quant;
+        //newRow.append(rowCol);
+        //rowCol = document.createElement("td");
+        //rowCol.innerText = sampleData[item].price;
+        //newRow.append(rowCol);
+        //rowCol = document.createElement("td");
+        //let button = document.createElement("input");
+        //button.type = "button";
+        //button.value = "edit";
+        //rowCol.append(button);
+        //button = document.createElement("input");
+        //button.type = "button";
+        //button.value = "delete";
+        //rowCol.append(button);
+        //newRow.append(rowCol);
+        //displayTable.append(newRow);
     }
 }
 
@@ -120,7 +150,22 @@ function clickCheck(event) {
         button.type = "button";
         button.value = "delete";
         col.append(button);
-        
+
+    }
+    else if (event.srcElement.value == "delete") {
+        event.srcElement.parentNode.parentNode.remove();
+
+    }
+    else if (event.srcElement.value == "Add New Item") {
+        let inputEl = event.srcElement.parentNode;
+        console.log(inputEl.childNodes);
+        let itemObj = {
+            name: inputEl.childNodes[1].childNodes[1].value,
+            sku: inputEl.childNodes[3].childNodes[1].value,
+            quant: inputEl.childNodes[5].childNodes[1].value,
+            price: inputEl.childNodes[7].childNodes[1].value
+        }
+        addTableRow(document.getElementById("displayTable"), itemObj);
     }
 }
 

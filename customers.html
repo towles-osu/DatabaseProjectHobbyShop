@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>title</title>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <title>Customer and Address Page</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+</head>
     <body>
         <h2>Customer Page</h2>
         <h4>Add Customer</h4>
@@ -17,11 +18,11 @@
                 <input id="newLastName" type="text" style="width: 150px" maxlength='30' placeholder="Last Name" />
                 <input type="number" id="newPhone" style="width: 100px" maxlength='10' placeholder="Phone #" />
                 <input type="email" id="newEmail" style="width: 150px" maxlength='30' placeholder="Email" />
-                <input type="number" id="newStreetAddress" style="width: 150px" maxlength='30' placeholder="Street Address" />
+                <input type="text" id="newStreetAddress" style="width: 150px" maxlength='30' placeholder="Street Address" />
                 <input type="text" id="newCity" style="width: 150px" maxlength='20' placeholder="City" />
                 <input type="text" id="newState" style="width: 30px" maxlength='2' placeholder="State" />
                 <input type="number" id="newZip" style="width: 50px" maxlength='5' placeholder="Zip" />
-                <input type="number" id="newUnit" style="width: 40px" maxlength='5' placeholder="Unit" />
+                <input type="text" id="newUnit" style="width: 40px" maxlength='5' placeholder="Unit" />
                 <input id="addItem" type="button" value="Add New Item" />
             </form>
         </div>
@@ -37,7 +38,12 @@
                 </label>
                 <br />
                 <label>
-                    Filter by Address<input id="filterAddress" type="text" />
+                    Filter by Address
+                    <input type="text" id="streetAddress" style="width: 150px" maxlength='30' placeholder="Street Address" />
+                    <input type="text" id="city" style="width: 150px" maxlength='20' placeholder="City" />
+                    <input type="text" id="state" style="width: 30px" maxlength='2' placeholder="State" />
+                    <input type="number" id="zip" style="width: 50px" maxlength='5' placeholder="Zip" />
+                    <input type="text" id="unit" style="width: 40px" maxlength='5' placeholder="Unit" />
                     <input type="button" id="addressFilt" value="Filter" />
                 </label>
 
@@ -46,6 +52,13 @@
 
         <div id="outputArea">
             <h4>Customer Display</h4>
+            <table id="displayTable">
+                <thead>
+                    <tr> <td>First Name</td> <td>Last Name</td> <td>Phone Number</td> <td>Email</td>
+                    <td>Street Address</td><td>City</td><td>State</td><td>Zip Code</td><td>Unit</td>
+                    <td>Delivery Zone</td><td> Modify</td> </tr>
+                </thead>
+            </table>
         </div>
         <script src="customers.js"></script>
     </body>
