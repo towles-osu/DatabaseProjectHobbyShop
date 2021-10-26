@@ -7,6 +7,9 @@ const sampleZones = [
     { name: "invalid", id: 5, desc: "This zone designates addresses as outside our delivery area" }
 ];
 
+//WIll be deleted, keeps track of zone ID's
+let zoneCounter = 6;
+
 const sampleAddr = [
     { id: 1, address: "1234 NW Main St", city: "Portland", state: "OR", zip: "97236", unit: "", zone:2 },
     { id: 2, address: "4321 SW Broadway Ave", city: "Portland", state: "OR", zip: "97233", unit: "3", zone:4 }
@@ -112,40 +115,7 @@ function clickCheck(event) {
         curBox.innerText = newCon.value;
         newCon.remove();
 
-        curBox = curBox.nextSibling;
-        newCon = curBox.firstChild;
-        curBox.innerText = newCon.value;
-        newCon.remove();
 
-        curBox = curBox.nextSibling;
-        newCon = curBox.firstChild;
-        curBox.innerText = newCon.value;
-        newCon.remove();
-
-        curBox = curBox.nextSibling;
-        newCon = curBox.firstChild;
-        curBox.innerText = newCon.value;
-        newCon.remove();
-
-        curBox = curBox.nextSibling;
-        newCon = curBox.firstChild;
-        curBox.innerText = newCon.value;
-        newCon.remove();
-
-        curBox = curBox.nextSibling;
-        newCon = curBox.firstChild;
-        curBox.innerText = newCon.value;
-        newCon.remove();
-
-        curBox = curBox.nextSibling;
-        newCon = curBox.firstChild;
-        curBox.innerText = newCon.value;
-        newCon.remove();
-
-        curBox = curBox.nextSibling;
-        newCon = curBox.firstChild;
-        curBox.innerText = newCon.value;
-        newCon.remove();
 
         col.firstChild.remove();
         let button = document.createElement("input");
@@ -162,25 +132,69 @@ function clickCheck(event) {
         event.srcElement.parentNode.parentNode.remove();
 
     }
-    else if (event.srcElement.value == "Add New Row") {
+    else if (event.srcElement.value == "Add New Zone") {
         let inputEl = event.srcElement.parentNode;
         console.log(inputEl.childNodes);
         let itemObj = {
-            firstName: inputEl.childNodes[1].value,
-            lastName: inputEl.childNodes[3].value,
-            phone: inputEl.childNodes[5].value,
-            email: inputEl.childNodes[7].value,
-            address: inputEl.childNodes[9].value,
-            city: inputEl.childNodes[11].value,
-            state: inputEl.childNodes[13].value,
-            zip: inputEl.childNodes[15].value,
-            unit: inputEl.childNodes[17].value
+            name: inputEl.childNodes[1].value,
+            id: zoneCounter,
+            desc: inputEl.childNodes[3].value,
         }
-        addTableRow(document.getElementById("displayTable"), itemObj);
-    };
-};
+        zoneCounter++;
+        addZoneRow(document.getElementById("zoneDisplayTable"), itemObj);
+    }
+    else if (event.srcElement.value == "change zone") {
+        let srcBox = event.srcElement.parentNode;
+        let zoneList = genZoneList();
+        let selector = document.createElement("select");
+        selector.name = "zone";
+        for (zone in zoneList) {
+            let newOpt = document.createElement("option");
+            newOpt.value = zoneList[zone];
+            newOpt.innerText = zoneList[zone];
+            selector.append(newOpt)
+        }
+        srcBox.previousSibling.firstChild.remove();
+        srcBox.previousSibling.append(selector);
+
+        srcBox.firstChild.remove();
+        let button = document.createElement("input");
+        button.type = "button";
+        button.value = "update zone"
+        srcBox.append(button);
+    }
+    else if (event.srcElement.value == "update zone") {
+        let srcBox = event.srcElement.parentNode;
+        let curBox = srcBox.previousSibling;
+        let newCon = curBox.firstChild;
+        curBox.innerText = newCon.value;
+        newCon.remove();
+
+        srcBox.firstChild.remove();
+        let button = document.createElement("input");
+        button.type = "button";
+        button.value = "change zone"
+        srcBox.append(button);
+    }
+}
+
+
+function genZoneList() {
+    let zoneArr = [];
+    let zoneTable = document.getElementById("zoneDisplayTable");
+
+    for (index in zoneTable.childNodes) {
+        if (zoneTable.childNodes[index].nodeName != "TR") {
+            continue;
+        }
+        console.log(zoneTable.childNodes[index].childNodes);
+        zoneArr.push(zoneTable.childNodes[index].childNodes[1].innerText);
+    }
+    return zoneArr;
+}
 
 //pulls basic info to display from database and inputs it
+
 function initDisplay() {
     //let displayArea = document.getElementById("outputArea");
     let displayTable = document.getElementById("zoneDisplayTable");
