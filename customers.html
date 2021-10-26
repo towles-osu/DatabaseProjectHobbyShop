@@ -8,7 +8,9 @@
         <h2>Customer Page</h2>
         <h4>Add Customer</h4>
         <p>Customers must have an address to be added, and vice versa.  If you would like to add a customer to an existing address,
-        or another address for an existing customer</p>
+        make sure that the address info you type perfectly matches the existing address info (see display table to check).
+        If you would like to add an additional address to an existing customer, make sure that the customer info matches
+        all the existing info for that customer.</p>
         <div id="inputArea">
             <form id="inputItem">
                 <input id="newFirstName" type="text" style="width: 150px" maxlength='30' placeholder="First Name" />
@@ -28,14 +30,15 @@
             <h4> Filter Displayed Customers</h4>
             <form id="filterItems">
                 <label>
-                    Filter by Name<input id="filterQuant" type="text" />
-                    <input type="button" id="firstNameFilt" value="First Name" />
-                    <input type="button" id="lastNameFilt" value="Last Name" />
-                    <input type="button" id="fullNameFilt" value="First or Last Name" />
+                    Filter by Name<input id="filterName" type="text" />
+                    <input type="button" id="firstNameFilt" value="Search First Names" />
+                    <input type="button" id="lastNameFilt" value="Search Last Names" />
+                    <input type="button" id="fullNameFilt" value="Search First or Last Names" />
                 </label>
                 <br />
                 <label>
-                    Filter by Address
+                    Filter by Address<input id="filterAddress" type="text" />
+                    <input type="button" id="addressFilt" value="Filter" />
                 </label>
 
             </form>
