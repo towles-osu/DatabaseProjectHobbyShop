@@ -7,18 +7,37 @@
     <body>
         <h2>Customer Page</h2>
         <h4>Add Customer</h4>
+        <p>Customers must have an address to be added, and vice versa.  If you would like to add a customer to an existing address,
+        or another address for an existing customer</p>
         <div id="inputArea">
             <form id="inputItem">
-                <input id="newName" type="text" style="width: 150px" maxlength='30' placeholder="First Name"/>
-                <input id="newSku" type="text" style="width: 150px" maxlength='30' placeholder="Last Name"/>
-                <input type="number" id="newQuant" style="width: 100px" maxlength='10' placeholder="Phone #"/>
-                <input type="email" id="newEmail" style="width: 150px" maxlength='30' placeholder="Email"/>
-                <input type="number" id="newStreetAddress" style="width: 150px" maxlength='30' placeholder="Street Address"/>
-                <input type="text" id="newCity" style="width: 150px" maxlength='20' placeholder="City"/>
-                <input type="text" id="newState" style="width: 30px" maxlength='2' placeholder="State"/>
-                <input type="number" id="newPrice" style="width: 50px" maxlength='5' placeholder="Zip"/>
-                <input type="number" id="newPrice" style="width: 40px" maxlength='5' placeholder="Unit"/>
+                <input id="newFirstName" type="text" style="width: 150px" maxlength='30' placeholder="First Name" />
+                <input id="newLastName" type="text" style="width: 150px" maxlength='30' placeholder="Last Name" />
+                <input type="number" id="newPhone" style="width: 100px" maxlength='10' placeholder="Phone #" />
+                <input type="email" id="newEmail" style="width: 150px" maxlength='30' placeholder="Email" />
+                <input type="number" id="newStreetAddress" style="width: 150px" maxlength='30' placeholder="Street Address" />
+                <input type="text" id="newCity" style="width: 150px" maxlength='20' placeholder="City" />
+                <input type="text" id="newState" style="width: 30px" maxlength='2' placeholder="State" />
+                <input type="number" id="newZip" style="width: 50px" maxlength='5' placeholder="Zip" />
+                <input type="number" id="newUnit" style="width: 40px" maxlength='5' placeholder="Unit" />
                 <input id="addItem" type="button" value="Add New Item" />
+            </form>
+        </div>
+
+        <div id="queryArea">
+            <h4> Filter Displayed Customers</h4>
+            <form id="filterItems">
+                <label>
+                    Filter by Name<input id="filterQuant" type="text" />
+                    <input type="button" id="firstNameFilt" value="First Name" />
+                    <input type="button" id="lastNameFilt" value="Last Name" />
+                    <input type="button" id="fullNameFilt" value="First or Last Name" />
+                </label>
+                <br />
+                <label>
+                    Filter by Address
+                </label>
+
             </form>
         </div>
 
