@@ -5,62 +5,97 @@
     <title>Customer and Address Page</title>
     <link rel="stylesheet" href="style.css" type="text/css">
 </head>
-    <body>
-        <a href="index.html">Return Home</a>
-        <h2>Customer Page</h2>
-        <h4>Add Customer</h4>
-        <p>Customers must have an address to be added, and vice versa.  If you would like to add a customer to an existing address,
-        make sure that the address info you type perfectly matches the existing address info (see display table to check).
-        If you would like to add an additional address to an existing customer, make sure that the customer info matches
-        all the existing info for that customer.</p>
-        <div id="inputArea">
-            <form id="inputItem">
-                <input id="newFirstName" type="text" style="width: 150px" maxlength='30' placeholder="First Name" />
-                <input id="newLastName" type="text" style="width: 150px" maxlength='30' placeholder="Last Name" />
-                <input type="text" id="newPhone" style="width: 100px" maxlength='10' placeholder="Phone #" />
-                <input type="email" id="newEmail" style="width: 150px" maxlength='30' placeholder="Email" />
-                <input type="text" id="newStreetAddress" style="width: 150px" maxlength='30' placeholder="Street Address" />
-                <input type="text" id="newCity" style="width: 150px" maxlength='20' placeholder="City" />
-                <input type="text" id="newState" style="width: 30px" maxlength='2' placeholder="State" />
-                <input type="text" id="newZip" style="width: 50px" maxlength='5' placeholder="Zip" />
-                <input type="text" id="newUnit" style="width: 40px" maxlength='5' placeholder="Unit" />
-                <input id="addItem" type="button" value="Add New Row" />
-            </form>
-        </div>
+<body>
+    <a href="index.html">Return Home</a>
+    <h2>Customer Page</h2>
+    <h4>Add Customer and Address</h4>
+    <p>Customers must have an address to be added, and vice versa.  Use this field to add a new customer with an address that is not already in our system.</p>
+    <div id="inputArea">
+        <form id="inputItem">
+            <input id="newFirstName" type="text" style="width: 150px" maxlength='30' placeholder="First Name" />
+            <input id="newLastName" type="text" style="width: 150px" maxlength='30' placeholder="Last Name" />
+            <input type="text" id="newPhone" style="width: 100px" maxlength='10' placeholder="Phone #" />
+            <input type="email" id="newEmail" style="width: 150px" maxlength='30' placeholder="Email" />
+            <input type="text" id="newStreetAddress" style="width: 150px" maxlength='30' placeholder="Street Address" />
+            <input type="text" id="newCity" style="width: 150px" maxlength='20' placeholder="City" />
+            <input type="text" id="newState" style="width: 30px" maxlength='2' placeholder="State" />
+            <input type="text" id="newZip" style="width: 50px" maxlength='5' placeholder="Zip" />
+            <input type="text" id="newUnit" style="width: 40px" maxlength='5' placeholder="Unit" />
+            <input id="addItem" type="button" value="Add New Customer and Address" />
+        </form>
+    </div>
+    <h4>Add Just Customer</h4>
+    <p>Customers must have an address to be added, and vice versa.  Use this field to add a new customer with their address set to one already in our system.</p>
+    <div id="inputArea">
+        <form id="inputItem">
+            <input id="newFirstName" type="text" style="width: 150px" maxlength='30' placeholder="First Name" />
+            <input id="newLastName" type="text" style="width: 150px" maxlength='30' placeholder="Last Name" />
+            <input type="text" id="newPhone" style="width: 100px" maxlength='10' placeholder="Phone #" />
+            <input type="email" id="newEmail" style="width: 150px" maxlength='30' placeholder="Email" />
+            <input type="number" id="existingAddress" style="width: 100px" maxlength='30' placeholder="Address ID" />
+            <input id="addItem" type="button" value="Add New Customer" />
+        </form>
+    </div>
 
-        <div id="queryArea">
-            <h4> Filter Displayed Customers</h4>
-            <form id="filterItems">
-                <label>
-                    Filter by Name<input id="filterName" type="text" />
-                    <input type="button" id="firstNameFilt" value="Search First Names" />
-                    <input type="button" id="lastNameFilt" value="Search Last Names" />
-                    <input type="button" id="fullNameFilt" value="Search First or Last Names" />
-                </label>
-                <br />
-                <label>
-                    Filter by Address
-                    <input type="text" id="streetAddress" style="width: 150px" maxlength='30' placeholder="Street Address" />
-                    <input type="text" id="city" style="width: 150px" maxlength='20' placeholder="City" />
-                    <input type="text" id="state" style="width: 30px" maxlength='2' placeholder="State" />
-                    <input type="number" id="zip" style="width: 50px" maxlength='5' placeholder="Zip" />
-                    <input type="text" id="unit" style="width: 40px" maxlength='5' placeholder="Unit" />
-                    <input type="button" id="addressFilt" value="Filter" />
-                </label>
+    <h4>Add Just Address</h4>
+    <p>Addresses must have a Customer to be added, and vice versa.  Use this field to add a new address for a customer that is already in our system.</p>
+    <div id="inputArea">
+        <form id="inputItem">
+            <input id="existingCustomer" type="number" style="width: 100px" maxlength='30' placeholder="Customer ID" />
+            <input type="text" id="newStreetAddress" style="width: 150px" maxlength='30' placeholder="Street Address" />
+            <input type="text" id="newCity" style="width: 150px" maxlength='20' placeholder="City" />
+            <input type="text" id="newState" style="width: 30px" maxlength='2' placeholder="State" />
+            <input type="text" id="newZip" style="width: 50px" maxlength='5' placeholder="Zip" />
+            <input type="text" id="newUnit" style="width: 40px" maxlength='5' placeholder="Unit" />
+            <input id="addItem" type="button" value="Add New Address" />
+        </form>
+    </div>
 
-            </form>
-        </div>
+    <div id="queryArea">
+        <h4> Filter Displayed Customers</h4>
+        <form id="filterItems">
+            <label>
+                Filter by Name<input id="filterName" type="text" />
+                <input type="button" id="firstNameFilt" value="Search First Names" />
+                <input type="button" id="lastNameFilt" value="Search Last Names" />
+                <input type="button" id="fullNameFilt" value="Search First or Last Names" />
+            </label>
+            <br />
+            <label>
+                Filter by Address
+                <input type="text" id="streetAddress" style="width: 150px" maxlength='30' placeholder="Street Address" />
+                <input type="text" id="city" style="width: 150px" maxlength='20' placeholder="City" />
+                <input type="text" id="state" style="width: 30px" maxlength='2' placeholder="State" />
+                <input type="number" id="zip" style="width: 50px" maxlength='5' placeholder="Zip" />
+                <input type="text" id="unit" style="width: 40px" maxlength='5' placeholder="Unit" />
+                <input type="button" id="addressFilt" value="Filter" />
+            </label>
 
-        <div id="outputArea">
-            <h4>Customer Display</h4>
-            <table id="displayTable">
-                <thead>
-                    <tr> <td>First Name</td> <td>Last Name</td> <td>Phone Number</td> <td>Email</td><td>Customer ID</td>
-                    <td>Street Address</td><td>City</td><td>State</td><td>Zip Code</td><td>Unit</td><td>Address ID</td>
-                    <td>Delivery Zone</td><td> Modify</td> </tr>
-                </thead>
-            </table>
-        </div>
-        <script src="customers.js"></script>
-    </body>
+        </form>
+    </div>
+
+    <div id="outputArea">
+        <h4>Customer Display</h4>
+        <table id="displayTable">
+            <thead>
+                <tr>
+                    <td>First Name</td>
+                    <td>Last Name</td>
+                    <td>Phone Number</td>
+                    <td>Email</td>
+                    <td>Customer ID</td>
+                    <td>Street Address</td>
+                    <td>City</td>
+                    <td>State</td>
+                    <td>Zip Code</td>
+                    <td>Unit</td>
+                    <td>Address ID</td>
+                    <td>Delivery Zone</td>
+                    <td> Modify</td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <script src="customers.js"></script>
+</body>
 </html>

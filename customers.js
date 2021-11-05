@@ -252,7 +252,7 @@ function clickCheck(event) {
         event.srcElement.parentNode.parentNode.remove();
 
     }
-    else if (event.srcElement.value == "Add New Row") {
+    else if (event.srcElement.value == "Add New Customer and Address") {
         let inputEl = event.srcElement.parentNode;
         let itemObj = {
             firstName: inputEl.childNodes[1].value,
@@ -266,12 +266,48 @@ function clickCheck(event) {
             unit: inputEl.childNodes[17].value,
             cust_id: cust_id_count,
             add_id: add_id_count
-        }
+        };
         cust_id_count++;
         add_id_count++;
         addTableRow(document.getElementById("displayTable"), itemObj);
-    };
-};
+    }
+    else if (event.srcElement.value == "Add New Customer") {
+        let inputEl = event.srcElement.parentNode;
+        let itemObj = {
+            firstName: inputEl.childNodes[1].value,
+            lastName: inputEl.childNodes[3].value,
+            phone: inputEl.childNodes[5].value,
+            email: inputEl.childNodes[7].value,
+            address: "",
+            city: "",
+            state: "",
+            zip: "",
+            unit: "",
+            cust_id: cust_id_count,
+            add_id: inputEl.childNodes[9].value
+        };
+        cust_id_count++;
+        addTableRow(document.getElementById("displayTable"), itemObj);
+    }
+    else if (event.srcElement.value == "Add New Address") {
+        let inputEl = event.srcElement.parentNode;
+        let itemObj = {
+            firstName: "",
+            lastName: "",
+            phone: "",
+            email: "",
+            address: inputEl.childNodes[3].value,
+            city: inputEl.childNodes[5].value,
+            state: inputEl.childNodes[7].value,
+            zip: inputEl.childNodes[9].value,
+            unit: inputEl.childNodes[11].value,
+            cust_id: inputEl.childNodes[1].value,
+            add_id: add_id_count
+        };
+        add_id_count++;
+        addTableRow(document.getElementById("displayTable"), itemObj);
+    }
+}
 
 //pulls basic info to display from database and inputs it
 function initDisplay() {
@@ -282,7 +318,7 @@ function initDisplay() {
     for (customer in sampleData) {
         addTableRow(displayTable, sampleData[customer]);
     };
-};
+}
 
 
 //Initializes elements in html
