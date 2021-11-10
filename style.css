@@ -12,3 +12,7 @@ thead td {
 td {
     text-align: center;
 }
+
+td > input{
+    width: 96%;
+}
