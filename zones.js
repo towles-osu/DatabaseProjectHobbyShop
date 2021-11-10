@@ -27,12 +27,6 @@ function addAddressRow(theTable, itemObj) {
         rowCol.innerText = itemObj[field];
         newRow.append(rowCol);
     }
-    let rowCol = document.createElement("td");
-    let button = document.createElement("input");
-    button.type = "button";
-    button.value = "change zone";
-    rowCol.append(button);
-    newRow.append(rowCol);
     theTable.append(newRow);
     
 };
@@ -208,11 +202,25 @@ function initDisplay() {
     for (addr in sampleAddr) {
         addAddressRow(displayTable, sampleAddr[addr]);
     };
-};
+}
+
+//Pulls zone names and id's for filter drop down and populates
+function initZoneFilter() {
+    let zoneDropDown = document.getElementById('zoneFilt');
+    for (index in sampleZones) {
+        let newOption = document.createElement('option');
+        newOption.value = sampleZones[index].id;
+        newOption.innerText = sampleZones[index].name + " ("
+            + sampleZones[index].id + ")";
+        zoneDropDown.append(newOption);
+    }
+}
+
 
 
 //Initializes elements in html
 function initialize() {
     initDisplay();
+    initZoneFilter();
     document.addEventListener('click', clickCheck);
 };

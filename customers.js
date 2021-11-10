@@ -49,7 +49,7 @@ function addTableRow(theTable, itemObj) {
     rowCol.innerText = itemObj.add_id;
     newRow.append(rowCol);
     rowCol = document.createElement("td");
-    rowCol.innerText = "Zone Filler";
+    rowCol.innerText = "2";
     newRow.append(rowCol);
     rowCol = document.createElement("td");
     let button = document.createElement("input");
@@ -102,12 +102,14 @@ function clickCheck(event) {
         curBox.append(newCon);
 
         curBox = curBox.nextSibling;
-        newCon = document.createElement("input");
-        newCon.type = "text";
-        newCon.style = "width: 30px";
-        newCon.value = curBox.innerText;
-        curBox.innerText = "";
-        curBox.append(newCon);
+        //curBox.value = curBox.innerText;
+        //newCon = document.createElement("input");
+        //newCon.type = "text";
+        //newCon.style = "width: 30px";
+        //newCon.value = curBox.innerText;
+        ////curBox.innerText = "";
+        //newCon.hidden = true;
+        //curBox.append(newCon);
 
         curBox = curBox.nextSibling;
         newCon = document.createElement("input");
@@ -150,12 +152,13 @@ function clickCheck(event) {
         curBox.append(newCon);
 
         curBox = curBox.nextSibling;
-        newCon = document.createElement("input");
-        newCon.type = "text";
-        newCon.style = "width: 30px";
-        newCon.value = curBox.innerText;
-        curBox.innerText = "";
-        curBox.append(newCon);
+        //newCon = document.createElement("input");
+        //newCon.type = "text";
+        //newCon.style = "width: 30px";
+        //newCon.value = curBox.innerText;
+        //newCon.hidden = true;
+        ////curBox.innerText = "";
+        //curBox.append(newCon);
 
         curBox = curBox.nextSibling;
         newCon = document.createElement("input");
@@ -198,9 +201,9 @@ function clickCheck(event) {
         newCon.remove();
 
         curBox = curBox.nextSibling;
-        newCon = curBox.firstChild;
-        curBox.innerText = newCon.value;
-        newCon.remove();
+        //newCon = curBox.firstChild;
+        //curBox.innerText = newCon.value;
+        //newCon.remove();
 
         curBox = curBox.nextSibling;
         newCon = curBox.firstChild;
@@ -228,9 +231,9 @@ function clickCheck(event) {
         newCon.remove();
 
         curBox = curBox.nextSibling;
-        newCon = curBox.firstChild;
-        curBox.innerText = newCon.value;
-        newCon.remove();
+        //newCon = curBox.firstChild;
+        //curBox.innerText = newCon.value;
+        //newCon.remove();
 
         curBox = curBox.nextSibling;
         newCon = curBox.firstChild;
