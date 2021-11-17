@@ -1,0 +1,24 @@
+{
+  "name": "databaseprojecthobbyshop",
+  "version": "1.0.0",
+  "description": "Repository for Matthew and Stew's cs340 project",
+  "main": "node.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/towles-osu/DatabaseProjectHobbyShop.git"
+  },
+  "author": "Stew and Matthew",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/towles-osu/DatabaseProjectHobbyShop/issues"
+  },
+  "homepage": "https://github.com/towles-osu/DatabaseProjectHobbyShop#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  }
+}

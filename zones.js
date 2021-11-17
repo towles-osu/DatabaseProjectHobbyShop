@@ -7,6 +7,8 @@ const sampleZones = [
     { name: "invalid", id: 5, desc: "This zone designates addresses as outside our delivery area" }
 ];
 
+const node_url = "http://flip1.engr.oregonstate.edu:3333/";
+
 //WIll be deleted, keeps track of zone ID's
 let zoneCounter = 6;
 
@@ -33,7 +35,8 @@ function addAddressRow(theTable, itemObj) {
 
 function addZoneRow(theTable, itemObj) {
     let newRow = document.createElement("tr");
-
+    
+    
     for (field in itemObj) {
         let rowCol = document.createElement("td");
         rowCol.innerText = itemObj[field];
@@ -52,7 +55,7 @@ function addZoneRow(theTable, itemObj) {
     theTable.append(newRow);
 }
 
-function clickCheck(event) {
+async function clickCheck(event) {
     //console.log(event);
     if (event.srcElement.value == "edit") {
         let col = event.srcElement.parentNode;
@@ -127,7 +130,21 @@ function clickCheck(event) {
 
     }
     else if (event.srcElement.value == "Add New Zone") {
-        let inputEl = event.srcElement.parentNode;
+	//test request
+	
+	let post_req = {
+	    method: 'POST',
+	    headers: {'Content-Type': 'application/json' },
+	    body : ""
+	}
+	
+	let result = await fetch('http://flip1.engr.oregonstate.edu:3333/', post_req);
+	
+	/*let the_req = XMLHttpRequest();
+	the_req.open('GET', '/', true);
+	the_req.send();
+*/
+	let inputEl = event.srcElement.parentNode;
         console.log(inputEl.childNodes);
         let itemObj = {
             name: inputEl.childNodes[1].value,
@@ -216,11 +233,53 @@ function initZoneFilter() {
     }
 }
 
+function populate_zone_table(info_from_db){
+    let the_table = document.getElementById("zoneDisplayTable");
+    
+    for (item in info_from_db){
+	addZoneRow(the_table, info_from_db[item]);
+    }
+}
+
+
 
 
 //Initializes elements in html
-function initialize() {
-    initDisplay();
+async function initialize() {
+    let body_req = {
+	type: "displayAll"};
+    let request = {
+	method: 'POST',
+	headers: {'Content-Type': 'application/json'},
+	body: JSON.stringify(body_req) 
+    }
+    let obj_res;
+    let result_data = await fetch(node_url + "zones", request).then(
+	(response) => response.json()).then(
+	    (data) => {
+		obj_res = data;
+		console.log(obj_res);
+		//populate the table with this data
+		populate_zone_table(obj_res);
+
+
+
+	    });
+
+//    let obj_res = result_data.json()
+					  
+
+//    result_data.then( (result) => {
+//	console.log(result);
+  //  });
+    
+    //sampleZones = result_data;
+   /* const request2 = await fetch(node_url + 'zones', {
+	method: 'POST',
+	body: 'HELLO! WORLD CAN YOU SEE ME IN THE BODY SOMEWHERE!!!!!!!!!'
+    });
+*/
+
     initZoneFilter();
     document.addEventListener('click', clickCheck);
 };
