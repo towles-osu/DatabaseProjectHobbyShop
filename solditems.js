@@ -12,6 +12,12 @@ document.addEventListener('DOMContentLoaded', initialize);
 function addSoldItemsRow(theTable, itemObj) {
     let newRow = document.createElement("tr");
     let rowCol = document.createElement("td");
+    for (item in itemObj){
+	rowCol.innerText = itemObj[item];
+	newRow.append(rowCol);
+	rowCol = document.createElement("td");
+    }
+/*
     rowCol.innerText = itemObj.purchaseNumber;
     newRow.append(rowCol);
     rowCol = document.createElement("td");
@@ -35,6 +41,7 @@ function addSoldItemsRow(theTable, itemObj) {
     rowCol = document.createElement("td");
     rowCol.innerText = itemObj.delivered;
     newRow.append(rowCol);
+  */
     rowCol = document.createElement("td");
     let button = document.createElement("input");
     button.type = "button";
@@ -224,7 +231,7 @@ function populate_solditems_table(info_from_db){
 }
 
 //Initializes elements in html
-function initialize() {
+async function initialize() {
     let body_req = {
         type: "displayAll"};
         let request = {
@@ -239,7 +246,7 @@ function initialize() {
             obj_res = data;
             console.log(obj_res);
             //populate the table with this data
-            populate_zone_table(obj_res);
+            populate_solditems_table(obj_res);
             });
     //initDisplay();
     document.addEventListener('click', clickCheck);

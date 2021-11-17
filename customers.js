@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', initialize);
 function addCustomerRow(theTable, itemObj) {
     let newRow = document.createElement("tr");
     let rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.firstName;
+/*    rowCol.innerText = itemObj.firstName;
     newRow.append(rowCol);
     rowCol = document.createElement("td");
     rowCol.innerText = itemObj.lastName;
@@ -54,6 +54,12 @@ function addCustomerRow(theTable, itemObj) {
     rowCol.innerText = "2";
     newRow.append(rowCol);
     rowCol = document.createElement("td");
+  */
+    for (item in itemObj) {
+	rowCol.innerText = itemObj[item];
+	newRow.append(rowCol);
+	rowCol = document.createElement("td");
+    }
     let button = document.createElement("input");
     button.type = "button";
     button.value = "edit";
@@ -334,7 +340,7 @@ function populate_customer_table(info_from_db){
 }
 
 //Initializes elements in html
-function initialize() {
+async function initialize() {
     let body_req = {
         type: "displayAll"};
         let request = {
@@ -349,7 +355,7 @@ function initialize() {
             obj_res = data;
             console.log(obj_res);
             //populate the table with this data
-            populate_zone_table(obj_res);
+            populate_customer_table(obj_res);
             });
     //initDisplay();
     document.addEventListener('click', clickCheck);

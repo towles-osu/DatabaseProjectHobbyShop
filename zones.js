@@ -222,6 +222,7 @@ function initDisplay() {
 }
 
 //Pulls zone names and id's for filter drop down and populates
+/*
 function initZoneFilter() {
     let zoneDropDown = document.getElementById('zoneFilt');
     for (index in sampleZones) {
@@ -232,6 +233,7 @@ function initZoneFilter() {
         zoneDropDown.append(newOption);
     }
 }
+*/
 
 function populate_zone_table(info_from_db){
     let the_table = document.getElementById("zoneDisplayTable");
@@ -274,6 +276,6 @@ async function initialize() {
     });
 */
 
-    initZoneFilter();
+    //initZoneFilter();
     document.addEventListener('click', clickCheck);
 };
