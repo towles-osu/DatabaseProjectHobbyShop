@@ -12,19 +12,7 @@ document.addEventListener('DOMContentLoaded', initialize);
 function addItemRow(theTable, itemObj) {
     let newRow = document.createElement("tr");
     let rowCol = document.createElement("td");
-/*    rowCol.innerText = itemObj.name;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.sku;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.quant;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.price;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-  */
+
     for (item in itemObj){
 	rowCol.innerText = itemObj[item];
 	newRow.append(rowCol);
@@ -55,7 +43,7 @@ function initDisplay() {
     }
 }
 
-function clickCheck(event) {
+async function clickCheck(event) {
     //console.log(event);
     if (event.srcElement.value == "edit") {
         let col = event.srcElement.parentNode;
@@ -135,25 +123,63 @@ function clickCheck(event) {
 
     }
     else if (event.srcElement.value == "delete") {
-        event.srcElement.parentNode.parentNode.remove();
+	let post_req = {
+	        method: 'POST',
+	        headers: {'Content-Type': 'application/json' },
+	        body : JSON.stringify({
+		    type : "delete",
+		    sku : event.srcElement.parentNode.parentNode.firstChild.innerText
+		        })
+	    }
+	
+	//console.log(event.srcElement.parentNode.parentNode.firstChild.innerText);
 
+	let obj_res;
+	let result_data = await fetch(node_url + "items", post_req).then(
+	        (response) => response.json()).then(
+		    (data) => {
+			    obj_res = data;
+			    console.log(obj_res);
+			    //populate the table with this data
+			    populate_items_table(obj_res);
+			});
     }
     else if (event.srcElement.value == "Add New Item") {
-        let inputEl = event.srcElement.parentNode;
-        console.log(inputEl.childNodes);
-        console.log(inputEl.childNodes[1].value)
-        let itemObj = {
-            name: inputEl.childNodes[1].value,
-            sku: inputEl.childNodes[3].value,
-            quant: inputEl.childNodes[5].value,
-            price: inputEl.childNodes[7].value
-        }
-        addTableRow(document.getElementById("displayTable"), itemObj);
+       
+	let post_req = {
+	        method: 'POST',
+	        headers: {'Content-Type': 'application/json' },
+	        body : JSON.stringify({
+		    type : "add",
+		    sku: document.getElementById("newSku").value,
+		    name : document.getElementById("newName").value,
+		    quantity : document.getElementById("newQuant").value,
+		    price : document.getElementById("newPrice").value
+		})
+	    }
+	
+	let obj_res;
+	let result_data = await fetch(node_url + "items", post_req).then(
+	    (response) => response.json()).then(
+		(data) => {
+		    obj_res = data;
+		    //console.log(obj_res);
+		    //populate the table with this data
+		    populate_items_table(obj_res);
+		});
     }
 }
 
 function populate_items_table(info_from_db){
     let the_table = document.getElementById("displayTable");
+    
+    let count_rows = the_table.children.length - 1;
+   
+    while (count_rows > 0){
+
+	the_table.children[count_rows].remove();
+	count_rows = count_rows - 1;
+    }
     
     for (item in info_from_db){
 	addItemRow(the_table, info_from_db[item]);
