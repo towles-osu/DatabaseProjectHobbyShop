@@ -47,7 +47,7 @@ app.post('/zones', (req, res, next) => {
 	    if (err){
 		console.log("in outer", err);
 		next(err);
-		return
+		return;
 	    }
 	    mysql.pool.query("SELECT * FROM Zones", (err, rows, fields) => {
 		if (err){
@@ -74,7 +74,7 @@ app.post('/zones', (req, res, next) => {
 	    if (err){
 		console.log("in outer", err);
 		next(err);
-		return
+		return;
 	    }
 	    mysql.pool.query("SELECT * FROM Zones", (err, rows, fields) => {
 		if (err){
@@ -113,6 +113,85 @@ app.post('/solditems', (req, res, next) => {
 	    res.send(JSON.stringify(resultArray));
 	});
     }
+    else if (req.body.type == "add"){
+	//console.log("we got a request to add zone");
+	let sqlQuery = "INSERT INTO SoldItems(`purchase_number`, `sku`, `date_sold`, `quantity_ordered`, `customer_id`, `address_id`, `item_sent`, `item_delivered`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	let insertVars = [req.body.purch_num, req.body.sku, req.body.date, req.body.quant, req.body.cust_id, req.body.add_id, req.body.sent, req.body.deliv]; 
+	mysql.pool.query(sqlQuery, insertVars, (err, rows, fields) => {
+	            if (err){
+			    console.log("in outer", err);
+			    next(err);
+			    return;
+			        }
+	            mysql.pool.query("SELECT * FROM SoldItems", (err, rows, fields) => {
+			    if (err){
+				    console.log("in inner", err);
+				    next(err);
+				    return;
+				}
+			    //console.log(rows[0].zone_id);
+			    for (i in rows){
+				    resultArray.push(rows[i]);
+				}
+			    //console.log(resultArray);
+			    res.send(JSON.stringify(resultArray));
+			        });
+	        });
+	 
+    }
+    else if (req.body.type == "delete"){
+	//console.log("we got a request to delete zone");
+	let sqlQuery = "DELETE FROM SoldItems WHERE sku = ? AND purchase_number = ?";
+	//console.log(req.body.sku);
+	let insertVars = [req.body.sku, req.body.purch_num];
+	mysql.pool.query(sqlQuery, insertVars, (err, rows, fields) => {
+	            if (err){
+			    console.log("in outer", err);
+			    next(err);
+			    return;
+			        }
+	            mysql.pool.query("SELECT * FROM SoldItems", (err, rows, fields) => {
+			    if (err){
+				    console.log("in inner", err);
+				    next(err);
+				    return;
+				}
+			    //console.log(rows[0].zone_id);
+			    for (i in rows){
+				    resultArray.push(rows[i]);
+				}
+			    //console.log(resultArray);
+			    res.send(JSON.stringify(resultArray));
+			        });
+	        });
+	 
+    }
+    else if (req.body.type == "filter"){
+	let sqlQuery;
+	if (req.body.filter == 'sku'){
+	    sqlQuery = "SELECT * FROM SoldItems WHERE sku = ?";
+	} else if (req.body.filter == 'date'){
+	    sqlQuery = "SELECT * FROM SoldItems WHERE date_sold = ?";
+	} else if (req.body.filter == 'purch_num'){
+	    sqlQuery = "SELECT * FROM SoldItems WHERE purchase_number = ?";
+	} else {
+	    return;
+	}
+	let insertVars = [req.body.condition];
+	mysql.pool.query(sqlQuery, insertVars, (err, rows, fields) => {
+	    if (err){
+		next(err);
+		return;
+	    }
+	    console.log(rows);
+	    for (i in rows){
+		resultArray.push(rows[i]);
+	    }
+	    console.log(resultArray);
+	    res.send(JSON.stringify(resultArray));
+	});
+
+    }
 });
 
 app.post('/items', (req, res, next) => {
@@ -142,7 +221,7 @@ app.post('/items', (req, res, next) => {
 	        if (err){
 		    console.log("in outer", err);
 		    next(err);
-		    return
+		    return;
 		        }
 	        mysql.pool.query("SELECT * FROM Items", (err, rows, fields) => {
 		    if (err){
@@ -169,7 +248,7 @@ app.post('/items', (req, res, next) => {
 	        if (err){
 		    console.log("in outer", err);
 		    next(err);
-		    return
+		    return;
 		        }
 	        mysql.pool.query("SELECT * FROM Items", (err, rows, fields) => {
 		    if (err){
