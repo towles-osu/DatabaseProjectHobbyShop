@@ -1,37 +1,25 @@
 //Data not stored here, just used to initialize some sample data
+/*
 const sampleZones = [
     { name: "east", id: 1, desc: "This zone is the East quadrant of Portland" },
     { name: "west", id: 2, desc: "This zone is the West quadrant of Portland" },
     { name: "north", id: 3, desc: "This zone is the North quadrant of Portland" },
     { name: "south", id: 4, desc: "This zone is the South quadrant of Portland" },
     { name: "invalid", id: 5, desc: "This zone designates addresses as outside our delivery area" }
-];
+];*/
 
 const node_url = "http://flip1.engr.oregonstate.edu:3333/";
 
 //WIll be deleted, keeps track of zone ID's
 let zoneCounter = 6;
-
+/*
 const sampleAddr = [
     { id: 1, address: "1234 NW Main St", city: "Portland", state: "OR", zip: "97236", unit: "", zone:2 },
     { id: 2, address: "4321 SW Broadway Ave", city: "Portland", state: "OR", zip: "97233", unit: "3", zone:4 }
 ];
+*/
 
 document.addEventListener('DOMContentLoaded', initialize);
-
-//Given a table and an address object adds a new row
-function addAddressRow(theTable, itemObj) {
-    let newRow = document.createElement("tr");
-
-    //Go through six items in object
-    for (field in itemObj) {
-        let rowCol = document.createElement("td");
-        rowCol.innerText = itemObj[field];
-        newRow.append(rowCol);
-    }
-    theTable.append(newRow);
-    
-};
 
 function addZoneRow(theTable, itemObj) {
     let newRow = document.createElement("tr");
@@ -126,33 +114,51 @@ async function clickCheck(event) {
 
     }
     else if (event.srcElement.value == "delete") {
-        event.srcElement.parentNode.parentNode.remove();
+
+	let post_req = {
+	    method: 'POST',
+	    headers: {'Content-Type': 'application/json' },
+	    body : JSON.stringify({
+		type : "delete",
+		zone_id : event.srcElement.parentNode.parentNode.firstChild.innerText
+	    })
+	}
+	
+	console.log(event.srcElement.parentNode.parentNode.firstChild.innerText);
+
+	let obj_res;
+	let result_data = await fetch(node_url + "zones", post_req).then(
+	    (response) => response.json()).then(
+		(data) => {
+		    obj_res = data;
+		    console.log(obj_res);
+		    //populate the table with this data
+		    populate_zone_table(obj_res);
+		});
 
     }
     else if (event.srcElement.value == "Add New Zone") {
-	//test request
+
 	
 	let post_req = {
 	    method: 'POST',
 	    headers: {'Content-Type': 'application/json' },
-	    body : ""
+	    body : JSON.stringify({
+		type : "add",
+		name : document.getElementById("newZoneName").value,
+		description :document.getElementById("newDesc").value
+	    })
 	}
 	
-	let result = await fetch('http://flip1.engr.oregonstate.edu:3333/', post_req);
-	
-	/*let the_req = XMLHttpRequest();
-	the_req.open('GET', '/', true);
-	the_req.send();
-*/
-	let inputEl = event.srcElement.parentNode;
-        console.log(inputEl.childNodes);
-        let itemObj = {
-            name: inputEl.childNodes[1].value,
-            id: zoneCounter,
-            desc: inputEl.childNodes[3].value,
-        }
-        zoneCounter++;
-        addZoneRow(document.getElementById("zoneDisplayTable"), itemObj);
+	let obj_res;
+	let result_data = await fetch(node_url + "zones", post_req).then(
+	    (response) => response.json()).then(
+		(data) => {
+		    obj_res = data;
+		    console.log(obj_res);
+		    //populate the table with this data
+		    populate_zone_table(obj_res);
+		});	
     }
     else if (event.srcElement.value == "change zone") {
         let srcBox = event.srcElement.parentNode;
@@ -221,23 +227,31 @@ function initDisplay() {
     };
 }
 
-//Pulls zone names and id's for filter drop down and populates
-/*
-function initZoneFilter() {
-    let zoneDropDown = document.getElementById('zoneFilt');
-    for (index in sampleZones) {
-        let newOption = document.createElement('option');
-        newOption.value = sampleZones[index].id;
-        newOption.innerText = sampleZones[index].name + " ("
-            + sampleZones[index].id + ")";
-        zoneDropDown.append(newOption);
-    }
-}
-*/
-
 function populate_zone_table(info_from_db){
     let the_table = document.getElementById("zoneDisplayTable");
+
+    while(the_table.firstChild){
+	the_table.removeChild(the_table.firstChild);
+    }
     
+    let table_header = document.createElement("thead");
+    let zone_id = document.createElement("td");
+    let zone_name = document.createElement("td");
+    let zone_desc = document.createElement("td");
+    zone_desc.innerText = "Zone Description";
+    let modify = document.createElement("td");
+    let the_row = document.createElement("tr");
+    zone_id.innerText = "Zone ID";
+    zone_name.innerText = "Zone Name";
+    modify.innerText = "Modify";
+    the_row.append(zone_id);
+    the_row.append(zone_name);
+    the_row.append(zone_desc);
+    the_row.append(modify);
+    table_header.append(the_row);
+    the_table.append(table_header);
+
+
     for (item in info_from_db){
 	addZoneRow(the_table, info_from_db[item]);
     }
@@ -261,21 +275,5 @@ async function initialize() {
 		//populate the table with this data
 		populate_zone_table(obj_res);
 	    });
-
-//    let obj_res = result_data.json()
-					  
-
-//    result_data.then( (result) => {
-//	console.log(result);
-  //  });
-    
-    //sampleZones = result_data;
-   /* const request2 = await fetch(node_url + 'zones', {
-	method: 'POST',
-	body: 'HELLO! WORLD CAN YOU SEE ME IN THE BODY SOMEWHERE!!!!!!!!!'
-    });
-*/
-
-    //initZoneFilter();
     document.addEventListener('click', clickCheck);
 };

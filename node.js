@@ -39,6 +39,59 @@ app.post('/zones', (req, res) => {
 	    res.send(JSON.stringify(resultArray));
 	});
     }
+    else if (req.body.type == "add"){
+	console.log("we got a request to add zone");
+	let sqlQuery = "INSERT INTO Zones(`zone_name`, `zone_description`) VALUES (?, ?)";
+	let insertVars = [req.body.name, req.body.description];
+	mysql.pool.query(sqlQuery, insertVars, (err, rows, fields) => {
+	    if (err){
+		console.log("in outer", err);
+		next(err);
+		return
+	    }
+	    mysql.pool.query("SELECT * FROM Zones", (err, rows, fields) => {
+		if (err){
+		    console.log("in inner", err);
+		    next(err);
+		    return;
+		}
+		console.log(rows[0].zone_id);
+		for (i in rows){
+		    resultArray.push(rows[i]);
+		}
+		console.log(resultArray);
+		res.send(JSON.stringify(resultArray));
+	    });
+	});
+			 
+    }
+    else if (req.body.type == "delete"){
+	console.log("we got a request to delete zone");
+	let sqlQuery = "DELETE FROM Zones WHERE zone_id = ?";
+	console.log(req.body.zone_id);
+	let insertVars = [req.body.zone_id];
+	mysql.pool.query(sqlQuery, insertVars, (err, rows, fields) => {
+	    if (err){
+		console.log("in outer", err);
+		next(err);
+		return
+	    }
+	    mysql.pool.query("SELECT * FROM Zones", (err, rows, fields) => {
+		if (err){
+		    console.log("in inner", err);
+		    next(err);
+		    return;
+		}
+//		console.log(rows[0].zone_id);
+		for (i in rows){
+		    resultArray.push(rows[i]);
+		}
+//		console.log(resultArray);
+		res.send(JSON.stringify(resultArray));
+	    });
+	});
+			 
+    }
 });
 
 app.post('/solditems', (req, res) => {
