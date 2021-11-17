@@ -241,9 +241,6 @@ function populate_zone_table(info_from_db){
     }
 }
 
-
-
-
 //Initializes elements in html
 async function initialize() {
     let body_req = {
@@ -261,9 +258,6 @@ async function initialize() {
 		console.log(obj_res);
 		//populate the table with this data
 		populate_zone_table(obj_res);
-
-
-
 	    });
 
 //    let obj_res = result_data.json()

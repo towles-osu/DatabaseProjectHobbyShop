@@ -7,13 +7,15 @@ const sampleData = [
     address: "4321 SW Broadway Ave", city: "Portland", state: "OR", zip: "97233", unit: "3", add_id: 2}
 ];
 
+const node_url = "http://flip1.engr.oregonstate.edu:3333/";
+
 //just for making fake data work.
 let cust_id_count = 3;
 let add_id_count = 3;
 
 document.addEventListener('DOMContentLoaded', initialize);
 
-function addTableRow(theTable, itemObj) {
+function addCustomerRow(theTable, itemObj) {
     let newRow = document.createElement("tr");
     let rowCol = document.createElement("td");
     rowCol.innerText = itemObj.firstName;
@@ -323,9 +325,32 @@ function initDisplay() {
     };
 }
 
+function populate_customer_table(info_from_db){
+    let the_table = document.getElementById("displayTable");
+    
+    for (item in info_from_db){
+	addCustomerRow(the_table, info_from_db[item]);
+    }
+}
 
 //Initializes elements in html
 function initialize() {
-    initDisplay();
+    let body_req = {
+        type: "displayAll"};
+        let request = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(body_req) 
+        }
+        let obj_res;
+        let result_data = await fetch(node_url + "customers", request).then(
+        (response) => response.json()).then(
+            (data) => {
+            obj_res = data;
+            console.log(obj_res);
+            //populate the table with this data
+            populate_zone_table(obj_res);
+            });
+    //initDisplay();
     document.addEventListener('click', clickCheck);
 };

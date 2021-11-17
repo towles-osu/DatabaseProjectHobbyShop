@@ -39,8 +39,75 @@ app.post('/zones', (req, res) => {
 	    res.send(JSON.stringify(resultArray));
 	});
     }
+});
 
+app.post('/solditems', (req, res) => {
+    console.log("got a post request");
+    console.log(req.body);
+    let resultArray = [];
+    if (req.body.type == "displayAll"){
+	console.log("we got request for data");
+	mysql.pool.query("SELECT * FROM SoldItems", (err, rows, fields) => {
+	    if (err){
+		next(err);
+		return;
+	    }
+	    console.log(rows[0].zone_id);
+	    for (i in rows){
+		resultArray.push(rows[i]);
+	    }
+	    console.log(resultArray);
+	    res.send(JSON.stringify(resultArray));
+	});
+    }
+});
 
+app.post('/items', (req, res) => {
+    console.log("got a post request");
+    console.log(req.body);
+    let resultArray = [];
+    if (req.body.type == "displayAll"){
+	console.log("we got request for data");
+	mysql.pool.query("SELECT * FROM Items", (err, rows, fields) => {
+	    if (err){
+		next(err);
+		return;
+	    }
+	    console.log(rows[0].zone_id);
+	    for (i in rows){
+		resultArray.push(rows[i]);
+	    }
+	    console.log(resultArray);
+	    res.send(JSON.stringify(resultArray));
+	});
+    }
+});
+
+app.post('/customers', (req, res) => {
+    console.log("got a post request");
+    console.log(req.body);
+    let resultArray = [];
+    if (req.body.type == "displayAll"){
+	console.log("we got request for data");
+	mysql.pool.query("SELECT C.first_name, C.last_name, C.phone_number, C.email, \
+					C.customer_id, A.street_address, A.city, A.state, A.zip_code, \
+					A.unit, A.address_id, Z.zone_id \
+					FROM Customers C \
+					JOIN CustomerAddresses CA ON C.customer_id = CA.customer_id \
+					JOIN Addresses A ON CA.address_id = A.address_id \
+					LEFT JOIN Zones Z ON A.zone_id = Z.zone_id", (err, rows, fields) => {
+	    if (err){
+		next(err);
+		return;
+	    }
+	    console.log(rows[0].zone_id);
+	    for (i in rows){
+		resultArray.push(rows[i]);
+	    }
+	    console.log(resultArray);
+	    res.send(JSON.stringify(resultArray));
+	});
+    }
 });
 
 

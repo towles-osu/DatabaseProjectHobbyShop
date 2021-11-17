@@ -5,9 +5,11 @@ const sampleData = [
     {purchaseNumber: "000002", customerID: 2, addressID: 2, sku: '53TBHQ34', quantity: 5, date: '2021-22-10', sent: 0, delivered: 'n/a'}
 ];
 
+const node_url = "http://flip1.engr.oregonstate.edu:3333/";
+
 document.addEventListener('DOMContentLoaded', initialize);
 
-function addTableRow(theTable, itemObj) {
+function addSoldItemsRow(theTable, itemObj) {
     let newRow = document.createElement("tr");
     let rowCol = document.createElement("td");
     rowCol.innerText = itemObj.purchaseNumber;
@@ -213,8 +215,32 @@ function clickCheck(event) {
     }
 }
 
+function populate_solditems_table(info_from_db){
+    let the_table = document.getElementById("displayTable");
+    
+    for (item in info_from_db){
+	addSoldItemsRow(the_table, info_from_db[item]);
+    }
+}
+
 //Initializes elements in html
 function initialize() {
-    initDisplay();
+    let body_req = {
+        type: "displayAll"};
+        let request = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(body_req) 
+        }
+        let obj_res;
+        let result_data = await fetch(node_url + "solditems", request).then(
+        (response) => response.json()).then(
+            (data) => {
+            obj_res = data;
+            console.log(obj_res);
+            //populate the table with this data
+            populate_zone_table(obj_res);
+            });
+    //initDisplay();
     document.addEventListener('click', clickCheck);
 }

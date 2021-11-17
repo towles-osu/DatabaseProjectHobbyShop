@@ -5,9 +5,11 @@ const sampleData = [
     { name: "Dragon Statue", sku:2, quant:4, price:40.50}
 ];
 
+const node_url = "http://flip1.engr.oregonstate.edu:3333/";
+
 document.addEventListener('DOMContentLoaded', initialize);
 
-function addTableRow(theTable, itemObj) {
+function addItemRow(theTable, itemObj) {
     let newRow = document.createElement("tr");
     let rowCol = document.createElement("td");
     rowCol.innerText = itemObj.name;
@@ -144,8 +146,32 @@ function clickCheck(event) {
     }
 }
 
+function populate_items_table(info_from_db){
+    let the_table = document.getElementById("displayTable");
+    
+    for (item in info_from_db){
+	addItemRow(the_table, info_from_db[item]);
+    }
+}
+
 //Initializes elements in html
 function initialize() {
-    initDisplay();
+    let body_req = {
+        type: "displayAll"};
+        let request = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(body_req) 
+        }
+        let obj_res;
+        let result_data = await fetch(node_url + "items", request).then(
+        (response) => response.json()).then(
+            (data) => {
+            obj_res = data;
+            console.log(obj_res);
+            //populate the table with this data
+            populate_zone_table(obj_res);
+            });
+    //initDisplay();
     document.addEventListener('click', clickCheck);
 }
