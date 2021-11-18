@@ -61,10 +61,10 @@ function addCustomerRow(theTable, itemObj) {
 	rowCol = document.createElement("td");
     }
     let button = document.createElement("input");
-    button.type = "button";
+/*    button.type = "button";
     button.value = "edit";
     rowCol.append(button);
-    button = document.createElement("input");
+    button = document.createElement("input");*/
     button.type = "button";
     button.value = "delete";
     rowCol.append(button);
