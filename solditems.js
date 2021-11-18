@@ -5,7 +5,7 @@ const sampleData = [
     {purchaseNumber: "000002", customerID: 2, addressID: 2, sku: '53TBHQ34', quantity: 5, date: '2021-22-10', sent: 0, delivered: 'n/a'}
 ];
 
-const node_url = "http://flip1.engr.oregonstate.edu:3333/";
+const node_url = "http://flip3.engr.oregonstate.edu:4003/";
 
 document.addEventListener('DOMContentLoaded', initialize);
 

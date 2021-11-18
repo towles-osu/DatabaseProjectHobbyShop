@@ -7,7 +7,7 @@ const cors = require('cors');
 
 const app = express();
 
-const port = 3333;
+const port = 4003;
 app.set('port', port);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -273,14 +273,8 @@ app.post('/customers', (req, res, next) => {
     console.log(req.body);
     let resultArray = [];
     if (req.body.type == "displayAll"){
-	console.log("we got request for data");
-	mysql.pool.query("SELECT C.first_name, C.last_name, C.phone_number, C.email, \
-					C.customer_id, A.street_address, A.city, A.state, A.zip_code, \
-					A.unit, A.address_id, Z.zone_id \
-					FROM Customers C \
-					JOIN CustomerAddresses CA ON C.customer_id = CA.customer_id \
-					JOIN Addresses A ON CA.address_id = A.address_id \
-					LEFT JOIN Zones Z ON A.zone_id = Z.zone_id", (err, rows, fields) => {
+	console.log("got request for diaplaying customers");
+	mysql.pool.query("SELECT C.first_name, C.last_name, C.phone_number, C.email, C.customer_id, A.street_address, A.city, A.state, A.zip_code, A.unit, A.address_id, Z.zone_id FROM Customers C LEFT JOIN CustomerAddresses CA ON C.customer_id = CA.customer_id LEFT JOIN Addresses A ON CA.address_id = A.address_id LEFT JOIN Zones Z ON A.zone_id = Z.zone_id UNION SELECT C.first_name, C.last_name, C.phone_number, C.email, C.customer_id, A.street_address, A.city, A.state, A.zip_code, A.unit, A.address_id, Z.zone_id FROM Customers C LEFT JOIN CustomerAddresses CA ON C.customer_id = CA.customer_id RIGHT JOIN Addresses A ON CA.address_id = A.address_id LEFT JOIN Zones Z ON A.zone_id = Z.zone_id;", (err, rows, fields) => {
 	    if (err){
 		next(err);
 		return;
@@ -308,4 +302,4 @@ app.use(function (err, req, res, next) {
 });
 
 
-app.listen(port, () => console.log('listening on port 3333'));
+app.listen(port, () => console.log('listening on port', port));

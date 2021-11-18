@@ -8,7 +8,7 @@ const sampleZones = [
     { name: "invalid", id: 5, desc: "This zone designates addresses as outside our delivery area" }
 ];*/
 
-const node_url = "http://flip1.engr.oregonstate.edu:3333/";
+const node_url = "http://flip3.engr.oregonstate.edu:4003/";
 
 //WIll be deleted, keeps track of zone ID's
 let zoneCounter = 6;

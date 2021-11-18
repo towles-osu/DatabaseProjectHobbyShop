@@ -5,7 +5,7 @@ const sampleData = [
     { name: "Dragon Statue", sku:2, quant:4, price:40.50}
 ];
 
-const node_url = "http://flip1.engr.oregonstate.edu:3333/";
+const node_url = "http://flip3.engr.oregonstate.edu:4003/";
 
 document.addEventListener('DOMContentLoaded', initialize);
 

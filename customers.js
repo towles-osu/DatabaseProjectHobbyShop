@@ -7,7 +7,7 @@ const sampleData = [
     address: "4321 SW Broadway Ave", city: "Portland", state: "OR", zip: "97233", unit: "3", add_id: 2}
 ];
 
-const node_url = "http://flip1.engr.oregonstate.edu:3333/";
+const node_url = "http://flip3.engr.oregonstate.edu:4003/";
 
 //just for making fake data work.
 let cust_id_count = 3;
