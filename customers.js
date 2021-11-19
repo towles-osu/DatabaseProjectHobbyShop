@@ -18,53 +18,13 @@ document.addEventListener('DOMContentLoaded', initialize);
 function addCustomerRow(theTable, itemObj) {
     let newRow = document.createElement("tr");
     let rowCol = document.createElement("td");
-/*    rowCol.innerText = itemObj.firstName;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.lastName;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.phone;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.email;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.cust_id;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.address;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.city;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.state;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.zip;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.unit;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.add_id;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = "2";
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-  */
+
     for (item in itemObj) {
 	rowCol.innerText = itemObj[item];
 	newRow.append(rowCol);
 	rowCol = document.createElement("td");
     }
     let button = document.createElement("input");
-/*    button.type = "button";
-    button.value = "edit";
-    rowCol.append(button);
-    button = document.createElement("input");*/
     button.type = "button";
     button.value = "delete";
     rowCol.append(button);
@@ -113,42 +73,59 @@ async function clickCheck(event) {
     else if (event.srcElement.value == "Add New Customer") {
         let inputEl = event.srcElement.parentNode;
         let itemObj = {
-            firstName: inputEl.childNodes[1].value,
-            lastName: inputEl.childNodes[3].value,
-            phone: inputEl.childNodes[5].value,
+            first_name: inputEl.childNodes[1].value,
+            last_name: inputEl.childNodes[3].value,
+            phone_number: inputEl.childNodes[5].value,
             email: inputEl.childNodes[7].value,
-            address: "",
-            city: "",
-            state: "",
-            zip: "",
-            unit: "",
-            cust_id: cust_id_count,
-            add_id: inputEl.childNodes[9].value
+            address_id: document.getElementById("existingAddress").value,
+	    type : "addCust"
         };
-        cust_id_count++;
-        addTableRow(document.getElementById("displayTable"), itemObj);
+       
+	//sending request
+	let req_body = {
+	    method : 'POST',
+	    headers : {'Content-Type': 'application/json'},
+	    body : JSON.stringify(itemObj)
+	};
+	let result_data = await fetch(node_url + "customers", req_body).then(
+	    (response) => {
+		return;}).then(() => initialize());
+       
     }
     else if (event.srcElement.value == "Add New Address") {
         let inputEl = event.srcElement.parentNode;
         let itemObj = {
-            firstName: "",
-            lastName: "",
-            phone: "",
-            email: "",
-            address: inputEl.childNodes[3].value,
+	    type : "addAdd",
+            street_address: inputEl.childNodes[3].value,
             city: inputEl.childNodes[5].value,
             state: inputEl.childNodes[7].value,
-            zip: inputEl.childNodes[9].value,
+            zip_code: inputEl.childNodes[9].value,
             unit: inputEl.childNodes[11].value,
-            cust_id: inputEl.childNodes[1].value,
-            add_id: add_id_count
+	    zone_id : document.getElementById("newZone2").value,
+	    customer_id : document.getElementById("existingCustomer").value
         };
-        add_id_count++;
-        addTableRow(document.getElementById("displayTable"), itemObj);
+	let result_data = await fetch(node_url + "customers", make_req_body(itemObj)).then(
+	    (response) => {
+		return;}).then(() => initialize());
+       
     }
     else if (event.srcElement.value == "Add New Customer/Address Connection"){
 	//this is where we deal with the insert new relationship stuff
+	let req_obj = {
+	    type : "addRelationship",
+	    address_id : document.getElementById("existingAddress2").value,
+	    customer_id : document.getElementById("existingCustomer2").value
+	};
+	let result_data = await fetch(node_url + "customers", make_req_body(req_obj)).then((response) => {
+	    return;}).then(() => initialize());
     }
+}
+
+function make_req_body(body_obj){
+    return {
+	method: 'POST',
+	headers: {'Content-Type': 'application/json'},
+	body: JSON.stringify(body_obj)};
 }
 
 //pulls basic info to display from database and inputs it

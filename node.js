@@ -318,6 +318,60 @@ app.post('/customers', (req, res, next) => {
 
 	});
     }
+    else if (req.body.type == "addCust"){
+	//adding a new customer, address_id will be empty or an id depending on if we shoudl connect it to an address
+	let sqlQuery = "INSERT INTO Customers (first_name, last_name, phone_number, email) VALUES (?, ?, ?, ?);";
+	let insertVars = [req.body.first_name, req.body.last_name, req.body.phone_number, req.body.email];
+	mysql.pool.query(sqlQuery, insertVars, (err, rows, fields) => {
+	    if (err) {
+		next(err);
+		return;
+	    }
+	    if (req.body.address_id){
+		sqlQuery =  "INSERT INTO CustomerAddresses (customer_id, address_id) VALUES ((SELECT customer_id FROM Customers ORDER BY customer_id DESC LIMIT 1), ?)";
+		insertVars = [req.body.address_id];
+		mysql.pool.query(sqlQuery, insertVars, (err2, rows2, fields2) => {
+		    if (err2) {
+			next(err2);
+			return;
+		    }
+		});
+	    }
+	    res.send("no result");
+	});
+    }
+    else if (req.body.type == "addAdd"){
+	let sqlQuery = (req.body.zone_id) ? "INSERT INTO Addresses (street_address, unit, city, state, zip_code, zone_id) VALUES (?, ?, ?, ?, ?, ?)" : "INSERT INTO Addresses (street_address, unit, city, state, zip_code) VALUES (?, ?, ?, ?, ?)";
+	let insertVars = (req.body.zone_id) ? [req.body.street_address, req.body.unit, req.body.city, req.body.state, req.body.zip_code, req.body.zone_id] : [req.body.street_address, req.body.unit, req.body.city, req.body.state, req.body.zip_code]; 
+	mysql.pool.query(sqlQuery, insertVars, (err, rows, fields) => {
+	    if (err) {
+		next(err);
+		return;
+	    }
+	    if (req.body.customer_id){
+		sqlQuery =  "INSERT INTO CustomerAddresses (customer_id, address_id) VALUES (?, (SELECT address_id FROM Addresses ORDER BY address_id DESC LIMIT 1))"
+		insertVars = [req.body.customer_id];
+		mysql.pool.query(sqlQuery, insertVars, (err2, rows2, fields2) => {
+		    if (err2) {
+			next(err2);
+			return;
+		    }
+		});
+	    }
+	    res.send("no result");
+	});
+    }
+    else if (req.body.type == "addRelationship"){
+	let sqlQuery = "INSERT INTO CustomerAddresses (customer_id, address_id) VALUES (?, ?)";
+	let insertVars = [req.body.customer_id, req.body.address_id];
+	mysql.pool.query(sqlQuery, insertVars, (err, rows, fields) => {
+	    if (err) {
+		next(err);
+		return;
+	    }
+	    res.send("no result");
+	});
+    }
 });
 
 
