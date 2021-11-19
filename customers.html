@@ -9,7 +9,7 @@
     <a href="index.html">Return Home</a>
     <h2>Customers and Addresses Page</h2>
     <h4>Add Customer and Address</h4>
-    <p>Customers must have an address to be added, and vice versa.  Use this field to add a new customer with an address that is not already in our system.</p>
+    <p>Use this field to add a new customer with an address that is not already in our system.</p>
     <div id="inputArea">
         <form id="inputItem">
             <input id="newFirstName" type="text" style="width: 150px" maxlength='30' placeholder="First Name" />
@@ -26,20 +26,20 @@
         </form>
     </div>
     <h4>Add Just Customer</h4>
-    <p>Customers must have an address to be added, and vice versa.  Use this field to add a new customer with their address set to one already in our system.</p>
+    <p>Use this field to add a new customer. You can set their address to one already in our system or add them without an address (choose None from the address dropdown to do so).</p>
     <div id="inputArea2">
         <form id="inputItem2">
             <input id="newFirstName2" type="text" style="width: 150px" maxlength='30' placeholder="First Name" />
             <input id="newLastName2" type="text" style="width: 150px" maxlength='30' placeholder="Last Name" />
             <input type="text" id="newPhone2" style="width: 100px" maxlength='20' placeholder="Phone #" />
             <input type="email" id="newEmail2" style="width: 150px" maxlength='30' placeholder="Email" />
-            <input type="number" id="existingAddress" style="width: 100px" maxlength='30' placeholder="Address ID" />
+            <select name="addressId" id="existingAddress"></select>
             <input id="addItem" type="button" value="Add New Customer" />
         </form>
     </div>
 
     <h4>Add Just Address</h4>
-    <p>Addresses must have a Customer to be added, and vice versa.  Use this field to add a new address for a customer that is already in our system.</p>
+    <p>Use this field to add a new address. You can add the address to a customer that is already in our system or add it without a customer (choose None from the customer dropdown to do so).</p>
     <div id="inputArea3">
         <form id="inputItem3">
             <select id="existingCustomer" name="customerId"></select>

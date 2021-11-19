@@ -146,6 +146,9 @@ async function clickCheck(event) {
         add_id_count++;
         addTableRow(document.getElementById("displayTable"), itemObj);
     }
+    else if (event.srcElement.value == "Add New Customer/Address Connection"){
+	//this is where we deal with the insert new relationship stuff
+    }
 }
 
 //pulls basic info to display from database and inputs it
@@ -174,6 +177,50 @@ function populate_customer_table(info_from_db){
     }
 }
 
+function load_cust_dropdown(info_obj, dropdown){
+    let cur_option = document.createElement("option");
+    let list_cust_id = [];
+    
+    for (i in info_obj) {
+	if (!(list_cust_id.includes(info_obj[i]['customer_id']))){
+	        if(info_obj[i]['customer_id']){
+		    cur_option.setAttribute("value", info_obj[i]['customer_id']);
+		    list_cust_id.push(info_obj[i]['customer_id']);
+		    cur_option.innerText = info_obj[i]['first_name'] + ' ' + info_obj[i]['last_name'] + '(' + info_obj[i]['customer_id'] + ')';
+		    dropdown.append(cur_option);
+		    cur_option = document.createElement("option");
+		        }
+	    }
+    }
+}
+
+function load_add_dropdown(info_obj, dropdown){
+    let cur_option = document.createElement("option");
+    let list_add_id = [];
+    
+    for (i in info_obj) {
+	
+        if (!(list_add_id.includes(info_obj[i]['address_id']))){
+            if (info_obj[i]['address_id']){
+		cur_option.setAttribute("value", info_obj[i]['address_id']);
+		list_add_id.push(info_obj[i]['address_id']);
+
+		cur_option.innerText = info_obj[i]['street_address'] + '(' + info_obj[i]['address_id'] + ')';
+		dropdown.append(cur_option);
+		cur_option = document.createElement("option");
+	    }
+        }
+    }
+
+}
+
+function add_none_option(dropdown){
+    let none_opt = document.createElement("option");
+    none_opt.value = "";
+    none_opt.innerText = "None";
+    dropdown.append(none_opt);
+}
+
 function load_zone_dropdown(zone_info, dropdown){
     let cur_option = document.createElement("option");
     
@@ -189,8 +236,23 @@ function load_zone_dropdown(zone_info, dropdown){
 }
 
 async function update_dropdowns(){
+    //grab all the dropdowns that need to be populated
     let zone_select = document.getElementById("newZone");
+    let zone_select2 = document.getElementById("newZone2");
+    let customer_select = document.getElementById("existingCustomer");
+    let customer_select2 = document.getElementById("existingCustomer2");
+    let address_select = document.getElementById("existingAddress");
+    let address_select2 = document.getElementById("existingAddress2");
+
+    //clear any existing fields in the dropdowns
     zone_select.innerHTML = "";
+    zone_select.innerHTML = "";
+    customer_select.innerHTML = "";
+    customer_select2.innerHTML = "";
+    address_select.innerHTML = "";
+    address_select2.innerHTML = "";
+
+    //Grab zone data and populate zone data fields
     let zone_req = {
 	type: "displayAll"};
     let zone_req_body = {
@@ -203,6 +265,24 @@ async function update_dropdowns(){
 	    (data) => {
 		zone_info = data;
 		load_zone_dropdown(zone_info, zone_select);
+		load_zone_dropdown(zone_info, zone_select2);
+	    });
+
+    let cust_add_body = {
+	method: 'POST',
+	headers: {'Content-Type': 'application/json'},
+	body : JSON.stringify({type : "displayAll"})};
+    let cust_add_info;
+    let cust_add_result = await fetch(node_url + "customers", cust_add_body).then(
+	(response) => response.json()).then(
+	    (data) => {
+		cust_add_info = data;
+		load_cust_dropdown(cust_add_info, customer_select);
+		load_cust_dropdown(cust_add_info, customer_select2);
+		load_add_dropdown(cust_add_info, address_select);
+		load_add_dropdown(cust_add_info, address_select2);
+		add_none_option(customer_select);
+		add_none_option(address_select);
 	    });
 }
 
