@@ -287,6 +287,37 @@ app.post('/customers', (req, res, next) => {
 	    res.send(JSON.stringify(resultArray));
 	});
     }
+    else if (req.body.type == "addCustAdd"){
+	//special note: For customers page we do not return the display table on addition/deletion
+	//and instead expect the customers.js page to make a second request to display all after requesting
+	//insertion/deletion
+	console.log("got request for adding customer and address");
+	let sqlQuery = (req.body.zone_id) ? "INSERT INTO Addresses (street_address, unit, city, state, zip_code, zone_id) VALUES (?, ?, ?, ?, ?, ?);" : "INSERT INTO Addresses (street_address, unit, city, state, zip_code) VALUES (?, ?, ?, ?, ?);" ;
+	let insertVars = (req.body.zone_id) ? [req.body.street_address, req.body.unit, req.body.city, req.body.state, req.body.zip_code, req.body.zone_id] : [req.body.street_address, req.body.unit, req.body.city, req.body.state, req.body.zip_code];
+	mysql.pool.query(sqlQuery, insertVars, (err, rows, fields) => {
+	    if (err) {
+		next(err);
+		return;
+	    }
+	    sqlQuery = "INSERT INTO Customers (first_name, last_name, phone_number, email) VALUES (?, ?, ?, ?)";
+	    insertVars = [req.body.first_name, req.body.last_name, req.body.phone_number, req.body.email];
+	    mysql.pool.query(sqlQuery, insertVars, (the_err, the_rows, the_fields) => {
+		if (the_err) {
+		    next(the_err);
+		    return;
+		}
+		sqlQuery = "INSERT INTO CustomerAddresses (customer_id, address_id) VALUES ((SELECT customer_id FROM Customers ORDER BY customer_id DESC LIMIT 1), (SELECT address_id FROM Addresses ORDER BY address_id DESC LIMIT 1));";
+		mysql.pool.query(sqlQuery, (last_err, last_rows, last_fields) => {
+		    if (last_err){
+			next(last_err);
+			return;
+		    }
+		    res.send("no result");
+		});
+	    });
+
+	});
+    }
 });
 
 

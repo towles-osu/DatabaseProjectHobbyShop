@@ -338,14 +338,14 @@ function load_cust_dropdown(info_obj, dropdown){
     let list_cust_id = [];
     
     for (i in info_obj) {
-	console.log(info_obj[i]);
 	if (!(list_cust_id.includes(info_obj[i]['customer_id']))){
-	    cur_option.setAttribute("value", info_obj[i]['customer_id']);
-	    list_cust_id.push(info_obj[i]['customer_id']);
-	   
-	    cur_option.innerText = info_obj[i]['first_name'] + ' ' + info_obj[i]['last_name'] + '(' + info_obj[i]['customer_id'] + ')';
-	    dropdown.append(cur_option);
-	    cur_option = document.createElement("option");
+	    if(info_obj[i]['customer_id']){
+		cur_option.setAttribute("value", info_obj[i]['customer_id']);
+		list_cust_id.push(info_obj[i]['customer_id']);
+		cur_option.innerText = info_obj[i]['first_name'] + ' ' + info_obj[i]['last_name'] + '(' + info_obj[i]['customer_id'] + ')';
+		dropdown.append(cur_option);
+		cur_option = document.createElement("option");
+	    }
 	}
     }
 }
@@ -355,13 +355,16 @@ function load_add_dropdown(info_obj, dropdown){
     let list_add_id = [];
 
     for (i in info_obj) {
-        if (!(list_add_id.includes(info_obj[i]['address_id']))){
-            cur_option.setAttribute("value", info_obj[i]['address_id']);
-            list_add_id.push(info_obj[i]['address_id']);
 
-            cur_option.innerText = info_obj[i]['street_address'] + '(' + info_obj[i]['address_id'] + ')';
-            dropdown.append(cur_option);
-            cur_option = document.createElement("option");
+        if (!(list_add_id.includes(info_obj[i]['address_id']))){
+            if (info_obj[i]['address_id']){
+		cur_option.setAttribute("value", info_obj[i]['address_id']);
+		list_add_id.push(info_obj[i]['address_id']);
+
+		cur_option.innerText = info_obj[i]['street_address'] + '(' + info_obj[i]['address_id'] + ')';
+		dropdown.append(cur_option);
+		cur_option = document.createElement("option");
+	    }
         }
     }
 }
