@@ -42,7 +42,7 @@ app.post('/zones', (req, res, next) => {
     else if (req.body.type == "add"){
 	console.log("we got a request to add zone");
 	let sqlQuery = "INSERT INTO Zones(`zone_name`, `zone_description`) VALUES (?, ?)";
-	let insertVars = [req.body.name, req.body.description];
+	let insertVars = [(req.body.name) ? req.body.name : null, (req.body.description) ? req.body.description : null];
 	mysql.pool.query(sqlQuery, insertVars, (err, rows, fields) => {
 	    if (err){
 		console.log("in outer", err);
@@ -115,6 +115,14 @@ app.post('/solditems', (req, res, next) => {
     }
     else if (req.body.type == "add"){
 	//console.log("we got a request to add zone");
+	for (element in req.body) {
+
+	    req.body[element] = (req.body[element] === "") ? null : req.body[element];
+	    //the next three lines should be uncommented to block quantities of 0 in solditems
+//	    if (element == "quant" && req.body[element] == 0){
+//		req.body[element] = null;
+//	    }
+	}
 	let sqlQuery = "INSERT INTO SoldItems(`purchase_number`, `sku`, `date_sold`, `quantity_ordered`, `customer_id`, `address_id`, `item_sent`, `item_delivered`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 	let insertVars = [req.body.purch_num, req.body.sku, req.body.date, req.body.quant, req.body.cust_id, req.body.add_id, req.body.sent, req.body.deliv]; 
 	mysql.pool.query(sqlQuery, insertVars, (err, rows, fields) => {
@@ -198,6 +206,9 @@ app.post('/items', (req, res, next) => {
     console.log("got a post request");
     //console.log(req.body);
     let resultArray = [];
+    for (element in req.body){
+	req.body[element] = (req.body[element] === "") ? null : req.body[element];
+    }
     if (req.body.type == "displayAll"){
 	//console.log("we got request for data");
 	mysql.pool.query("SELECT * FROM Items", (err, rows, fields) => {
@@ -271,6 +282,9 @@ app.post('/items', (req, res, next) => {
 app.post('/customers', (req, res, next) => {
     console.log("got a post request");
     console.log(req.body);
+    for (element in req.body){
+	req.body[element] = (req.body[element] === "") ? null : req.body[element];
+    }
     let resultArray = [];
     if (req.body.type == "displayAll"){
 	console.log("got request for diaplaying customers");
