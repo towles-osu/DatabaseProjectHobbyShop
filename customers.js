@@ -35,8 +35,24 @@ function addCustomerRow(theTable, itemObj) {
 async function clickCheck(event) {
    
     if (event.srcElement.value == "delete") {
-        event.srcElement.parentNode.parentNode.remove();
-
+        //event.srcElement.parentNode.parentNode.remove();
+	let body_msg = {
+	    type: "delete",
+	    custId: event.srcElement.parentNode.parentNode.children[4].innerText,
+	    addId: event.srcElement.parentNode.parentNode.children[10].innerText
+	};
+	let req_body = {
+	    method: 'POST',
+	    headers: {'Content-Type': 'application/json'},
+	    body: JSON.stringify(body_msg)
+	};
+	let result_data = await fetch(node_url + "customers", req_body).then(
+	    (response) => {
+		console.log("response is", response);
+		
+	    }).then(
+		() => initialize());
+	
     }
     else if (event.srcElement.value == "Add New Customer and Address") {
         let inputEl = event.srcElement.parentNode;

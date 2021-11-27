@@ -277,6 +277,17 @@ app.post('/items', (req, res, next) => {
 	    });
 	 
     }
+    else if (req.body.type == "update"){
+	let sqlQuery = "UPDATE Items SET sku = ?, item_name = ?, quantity_available = ?, price = ? WHERE sku = ?;";
+	let insertVars = [req.body.sku, req.body.name, req.body.quantity, req.body.price, req.body.sku_origin];
+	mysql.pool.query(sqlQuery, insertVars, (err, rows, fields) => {
+	    if (err){
+		next(err);
+		return;
+	    }
+	    res.send("updated " + req.body.sku_origin);
+	});
+    }
 });
 
 app.post('/customers', (req, res, next) => {
@@ -385,6 +396,40 @@ app.post('/customers', (req, res, next) => {
 	    }
 	    res.send("no result");
 	});
+    }
+    else if (req.body.type == "delete"){
+	if (req.body.addId && req.body.custId){
+	    //Deleting customer/address relationship
+	    let sqlQuery = "DELETE FROM CustomerAddresses WHERE customer_id=? AND address_id=?;";
+	    let insertVars = [req.body.custId, req.body.addId];
+	    mysql.pool.query(sqlQuery, insertVars, (err, rows, fields) => {
+		if (err) {
+		    next(err);
+		    return;
+		}
+		res.send("relationship deleted");
+	    });
+	} else if (req.body.addId){
+	    let sqlQuery = "DELETE FROM Addresses WHERE address_id = ?;";
+	    let insertVars = [req.body.addId];
+	    mysql.pool.query(sqlQuery, insertVars, (err, rows, fields) => {
+		if (err) {
+		    next(err);
+		    return;
+		}
+		res.send("address deleted");
+	    });
+	} else if (req.body.custId){
+	    let sqlQuery = "DELETE FROM Customers WHERE customer_id = ?;";
+	    let insertVars = [req.body.custId];
+	    mysql.pool.query(sqlQuery, insertVars, (err, rows, fields) => {
+		if (err) {
+		    next(err);
+		    return;
+		}
+		res.send("customer deleted");
+	    });
+	}
     }
 });
 

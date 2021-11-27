@@ -13,5 +13,8 @@ td {
     text-align: center;
 }
 
+td[contenteditable="true"] {
+    background-color: lavender;
+}
 
 

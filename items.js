@@ -1,9 +1,4 @@
 
-//Data not stored here, just used to initialize some sample data
-const sampleData = [
-    { name: "Magic Booster", sku: 1, quant: 50, price: 5 },
-    { name: "Dragon Statue", sku:2, quant:4, price:40.50}
-];
 
 const node_url = "http://flip3.engr.oregonstate.edu:4003/";
 
@@ -43,9 +38,22 @@ function initDisplay() {
     }
 }
 
+function makeRowEditable(table_row){
+    let dataBoxes = table_row.children;
+    for (index in dataBoxes){
+	if (dataBoxes[index].children && dataBoxes[index].children.length < 1){
+	    dataBoxes[index].setAttribute("contenteditable", true);
+	}
+    }
+}
+
 async function clickCheck(event) {
     //console.log(event);
     if (event.srcElement.value == "edit") {
+	event.srcElement.value = "save";
+	event.srcElement.setAttribute("id", event.srcElement.parentNode.parentNode.children[0].innerText);
+	makeRowEditable(event.srcElement.parentNode.parentNode);
+	/*
         let col = event.srcElement.parentNode;
 
         let row = col.parentNode;
@@ -86,9 +94,32 @@ async function clickCheck(event) {
         newCon.type = "button";
         newCon.value = "save";
         col.append(newCon);
+	*/
     }
     else if (event.srcElement.value == "save") {
-        let col = event.srcElement.parentNode;
+        let src_row = event.srcElement.parentNode.parentNode.children;
+	let req_body = {
+	    method: 'POST',
+	    headers: {'Content-Type': 'application/json'},
+	    body: JSON.stringify({
+		type: "update",
+		sku_origin: event.srcElement.id,
+		sku: src_row[0].innerText,
+		name: src_row[1].innerText,
+		quantity: src_row[2].innerText,
+		price: src_row[3].innerText
+	    })
+	};
+
+	let result = await fetch(node_url + "items", req_body).then(
+	    (res) => {
+		console.log(res);
+		}).then((data) => {
+		    console.log(data);
+		    initialize();
+		});
+	/*
+	let col = event.srcElement.parentNode;
 
         let row = col.parentNode;
         let curBox = row.firstChild;
@@ -120,7 +151,7 @@ async function clickCheck(event) {
         button.type = "button";
         button.value = "delete";
         col.append(button);
-
+	*/
     }
     else if (event.srcElement.value == "delete") {
 	let post_req = {
