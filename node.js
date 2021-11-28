@@ -200,6 +200,17 @@ app.post('/solditems', (req, res, next) => {
 	});
 
     }
+	else if (req.body.type == "update"){
+		let sqlQuery = "UPDATE Items SET purchase_number = ?, sku = ?, date_sold = ?, quantity_ordered = ?, item_sent = ?, item_delivered = ? WHERE customer_id = ? AND address_id = ?;";
+		let insertVars = [req.body.purch_num, req.body.sku, req.body.date, req.body.quant, req.body.sent, req.body.deliv, req.body.cust_id, req.body.add_id];
+		mysql.pool.query(sqlQuery, insertVars, (err, rows, fields) => {
+			if (err){
+			next(err);
+			return;
+			}
+			res.send("updated " + req.body.sku_origin);
+		});
+		}
 });
 
 app.post('/items', (req, res, next) => {

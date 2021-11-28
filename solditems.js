@@ -68,9 +68,23 @@ function initDisplay() {
     }
 }
 
+function makeRowEditable(table_row){
+    let dataBoxes = table_row.children;
+    for (index in dataBoxes){
+	if (dataBoxes[index].children && dataBoxes[index].children.length < 1 && index != 4 && index != 5){
+	    dataBoxes[index].setAttribute("contenteditable", true);
+	}
+    }
+}
+
 async function clickCheck(event) {
     //console.log(event);
     if (event.srcElement.value == "edit") {
+        event.srcElement.value = "save";
+	    event.srcElement.setAttribute("id", event.srcElement.parentNode.parentNode.children[0].innerText);
+	    makeRowEditable(event.srcElement.parentNode.parentNode);
+
+        /*
         let col = event.srcElement.parentNode;
 
         let row = col.parentNode;
@@ -144,8 +158,34 @@ async function clickCheck(event) {
         newCon.type = "button";
         newCon.value = "save";
         col.append(newCon);
+        */
     }
     else if (event.srcElement.value == "save") {
+        let src_row = event.srcElement.parentNode.parentNode.children;
+        let req_body = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+            type: "update",
+            purch_num : src_row[0].innerText,
+			sku : src_row[1].innerText,
+			date : src_row[2].innerText,
+			quant : src_row[3].innerText,
+			cust_id : src_row[4].innerText,
+			add_id : src_row[5].innerText,
+			sent : src_row[6].innerText,
+			deliv : src_row[7].innerText
+            })
+        };
+
+        let result = await fetch(node_url + "solditems", req_body).then(
+            (res) => {
+            console.log(res);
+            }).then((data) => {
+                console.log(data);
+                initialize();
+            });
+        /*
         let col = event.srcElement.parentNode;
 
         let row = col.parentNode;
@@ -198,6 +238,7 @@ async function clickCheck(event) {
         button.type = "button";
         button.value = "delete";
         col.append(button);
+        */
 
     }
     else if (event.srcElement.value == "delete") {
