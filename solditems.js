@@ -17,31 +17,6 @@ function addSoldItemsRow(theTable, itemObj) {
 	newRow.append(rowCol);
 	rowCol = document.createElement("td");
     }
-/*
-    rowCol.innerText = itemObj.purchaseNumber;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.customerID;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.addressID;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.sku;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.quantity;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.date;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.sent;
-    newRow.append(rowCol);
-    rowCol = document.createElement("td");
-    rowCol.innerText = itemObj.delivered;
-    newRow.append(rowCol);
-  */
     rowCol = document.createElement("td");
     let button = document.createElement("input");
     button.type = "button";
@@ -81,101 +56,32 @@ async function clickCheck(event) {
     //console.log(event);
     if (event.srcElement.value == "edit") {
         event.srcElement.value = "save";
-	    event.srcElement.setAttribute("id", event.srcElement.parentNode.parentNode.children[0].innerText);
-	    makeRowEditable(event.srcElement.parentNode.parentNode);
-
-        /*
-        let col = event.srcElement.parentNode;
-
-        let row = col.parentNode;
-        let curBox = row.firstChild;
-        let newCon = document.createElement("input");
-        newCon.type = "text";
-        newCon.style = "width: 100px";
-        newCon.value = curBox.innerText;
-        curBox.innerText = "";
-        curBox.append(newCon);
-
-        curBox = curBox.nextSibling;
-        newCon = document.createElement("input");
-        newCon.type = "number";
-        newCon.style = "width: 75px";
-        newCon.value = curBox.innerText;
-        curBox.innerText = "";
-        curBox.append(newCon);
-
-        curBox = curBox.nextSibling;
-        newCon = document.createElement("input");
-        newCon.type = "number";
-        newCon.style = "width: 75px";
-        newCon.value = curBox.innerText;
-        curBox.innerText = "";
-        curBox.append(newCon);
-
-        curBox = curBox.nextSibling;
-        newCon = document.createElement("input");
-        newCon.type = "text";
-        newCon.style = "width: 100px";
-        newCon.value = curBox.innerText;
-        curBox.innerText = "";
-        curBox.append(newCon);
-
-        curBox = curBox.nextSibling;
-        newCon = document.createElement("input");
-        newCon.type = "number";
-        newCon.style = "width: 75px";
-        newCon.value = curBox.innerText;
-        curBox.innerText = "";
-        curBox.append(newCon);
-
-        curBox = curBox.nextSibling;
-        newCon = document.createElement("input");
-        newCon.type = "text";
-        newCon.style = "width: 80px";
-        newCon.value = curBox.innerText;
-        curBox.innerText = "";
-        curBox.append(newCon);
-
-        curBox = curBox.nextSibling;
-        newCon = document.createElement("input");
-        newCon.type = "number";
-        newCon.style = "width: 30px";
-        newCon.value = curBox.innerText;
-        curBox.innerText = "";
-        curBox.append(newCon);
-
-        curBox = curBox.nextSibling;
-        newCon = document.createElement("input");
-        newCon.type = "text";
-        newCon.style = "width: 100px";
-        newCon.value = curBox.innerText;
-        curBox.innerText = "";
-        curBox.append(newCon);
-
-        col.firstChild.remove();
-        col.firstChild.remove();
-        newCon = document.createElement("input");
-        newCon.type = "button";
-        newCon.value = "save";
-        col.append(newCon);
-        */
+	let the_row = event.srcElement.parentNode.parentNode.children;
+	event.srcElement.setAttribute("id", the_row[0].innerText + "@" + the_row[1].innerText);
+	makeRowEditable(event.srcElement.parentNode.parentNode);
     }
     else if (event.srcElement.value == "save") {
         let src_row = event.srcElement.parentNode.parentNode.children;
-        let req_body = {
+        let split_index = event.srcElement.id.indexOf("@");
+	if (split_index < 0){
+	    console.log("No @ sign separating purch num and sku in request");
+	}
+	let req_body = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-            type: "update",
-            purch_num : src_row[0].innerText,
-			sku : src_row[1].innerText,
-			date : src_row[2].innerText,
-			quant : src_row[3].innerText,
-			cust_id : src_row[4].innerText,
-			add_id : src_row[5].innerText,
-			sent : src_row[6].innerText,
-			deliv : src_row[7].innerText
-            })
+		type: "update",
+		purch_num : src_row[0].innerText,
+		sku : src_row[1].innerText,
+		date : src_row[2].innerText,
+		quant : src_row[3].innerText,
+		cust_id : src_row[4].innerText,
+		add_id : src_row[5].innerText,
+		sent : src_row[6].innerText,
+		deliv : src_row[7].innerText,
+		cur_purch_num : event.srcElement.id.slice(0, split_index),
+		cur_sku : event.srcElement.id.slice(split_index + 1)
+	    })
         };
 
         let result = await fetch(node_url + "solditems", req_body).then(
@@ -185,61 +91,7 @@ async function clickCheck(event) {
                 console.log(data);
                 initialize();
             });
-        /*
-        let col = event.srcElement.parentNode;
-
-        let row = col.parentNode;
-        let curBox = row.firstChild;
-        let newCon = curBox.firstChild;
-        curBox.innerText = newCon.value;
-        newCon.remove();
-
-        curBox = curBox.nextSibling;
-        newCon = curBox.firstChild;
-        curBox.innerText = newCon.value;
-        newCon.remove();
-
-        curBox = curBox.nextSibling;
-        newCon = curBox.firstChild;
-        curBox.innerText = newCon.value;
-        newCon.remove();
-
-        curBox = curBox.nextSibling;
-        newCon = curBox.firstChild;
-        curBox.innerText = newCon.value;
-        newCon.remove();
-
-        curBox = curBox.nextSibling;
-        newCon = curBox.firstChild;
-        curBox.innerText = newCon.value;
-        newCon.remove();
-
-        curBox = curBox.nextSibling;
-        newCon = curBox.firstChild;
-        curBox.innerText = newCon.value;
-        newCon.remove();
-
-        curBox = curBox.nextSibling;
-        newCon = curBox.firstChild;
-        curBox.innerText = newCon.value;
-        newCon.remove();
-
-        curBox = curBox.nextSibling;
-        newCon = curBox.firstChild;
-        curBox.innerText = newCon.value;
-        newCon.remove();
-
-        col.firstChild.remove();
-        let button = document.createElement("input");
-        button.type = "button";
-        button.value = "edit";
-        col.append(button);
-        button = document.createElement("input");
-        button.type = "button";
-        button.value = "delete";
-        col.append(button);
-        */
-
+       
     }
     else if (event.srcElement.value == "delete") {
       let post_req = {
@@ -303,22 +155,6 @@ async function clickCheck(event) {
 	}
     }
     else if (event.srcElement.value == "Add New Sale") {
-
-        /*let inputEl = event.srcElement.parentNode;
-        console.log(inputEl.childNodes);
-        console.log(inputEl.childNodes[1].value)
-        let soldObj = {
-            purchaseNumber: inputEl.childNodes[1].value,
-            customerID: inputEl.childNodes[3].value,
-            addressID: inputEl.childNodes[5].value,
-            sku: inputEl.childNodes[7].value,
-            quantity: inputEl.childNodes[9].value,
-            date: inputEl.childNodes[11].value,
-            sent: inputEl.childNodes[13].value,
-            delivered: inputEl.childNodes[15].value
-        }
-        addTableRow(document.getElementById("displayTable"), soldObj);
-	*/
 	let post_req = {
 	            method: 'POST',
 	            headers: {'Content-Type': 'application/json' },

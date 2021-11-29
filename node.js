@@ -201,14 +201,14 @@ app.post('/solditems', (req, res, next) => {
 
     }
 	else if (req.body.type == "update"){
-		let sqlQuery = "UPDATE Items SET purchase_number = ?, sku = ?, date_sold = ?, quantity_ordered = ?, item_sent = ?, item_delivered = ? WHERE customer_id = ? AND address_id = ?;";
-		let insertVars = [req.body.purch_num, req.body.sku, req.body.date, req.body.quant, req.body.sent, req.body.deliv, req.body.cust_id, req.body.add_id];
+		let sqlQuery = "UPDATE SoldItems SET purchase_number = ?, sku = ?, date_sold = ?, quantity_ordered = ?, item_sent = ?, item_delivered = ? WHERE purchase_number = ? AND sku = ?;";
+		let insertVars = [req.body.purch_num, req.body.sku, req.body.date, req.body.quant, req.body.sent, req.body.deliv, req.body.cur_purch_num, req.body.cur_sku];
 		mysql.pool.query(sqlQuery, insertVars, (err, rows, fields) => {
 			if (err){
 			next(err);
 			return;
 			}
-			res.send("updated " + req.body.sku_origin);
+			res.send("updated a sold item");
 		});
 		}
 });
