@@ -1,23 +1,6 @@
 # DatabaseProjectHobbyShop
 Repository for Matthew and Stew's cs340 project
 
-
-To Do:
-Front-end Implementations:
-
-Customer Addresses page
-  Deals with adding customers/addresses and can edit them
-
-AddressNotes editting page
-  Deals with adding and editting notes about addresses
-
-Zones page
-  creating zones, finding addresses without zones, updating address zones
-
-SoldItems page
-
-Items page
-
-Deliver Notes page
-
+The database backend is shut-down because the term ended, but this repository contains a basic database backend and frontend.
+Implemented using nodejs and express for server communication (as well as mySQL for the database itself, originally setup on MariaDB).
 
