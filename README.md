@@ -159,4 +159,7 @@ and we are defining the schema and protocol for doing so.
   <li>SPECIAL NOTE: The primary key is the composite key of the purchase number (which is guaranteed to be unique to a given order, though the order processing is outside our database scope) and the sku (which is guaranteed to be unique to an item)</li>
   </ol>
 </ol>
-<br>
+
+## ERD
+
+## Schema
