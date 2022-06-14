@@ -168,6 +168,9 @@ and we are defining the schema and protocol for doing so.
 
 ## Screenshot of Pages
 ![](./images/customersaddresses.png)
+***
 ![](./images/zones.png)
+***
 ![](./images/items.png)
+***
 ![](./images/solditems.png)
