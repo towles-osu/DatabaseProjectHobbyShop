@@ -63,20 +63,20 @@ and we are defining the schema and protocol for doing so.
 <ol>
   <li>Customers: represents individual people who are customers of our shop.</li>
   <ol>
-    <li>\*customer_id (INT, starting from 1, incrementing by 1 each time)</li>
+    <li>*customer_id (INT, starting from 1, incrementing by 1 each time)</li>
     <li>first_name (varchar, not NULL)</li>
     <li>last_name (varchar, not NULL)</li>
     <li>phone_number (varchar(10), can be NULL)</li>
     <li>email (varchar, can be NULL)</li>
     <li>Relationships:</li>
     <ol>
-      <li>M:M with Addresses, resolved with…</li>
+      <li>M:M with Addresses, resolved with..</li>
       <ul>
         <li>1:M with relation table CustomersAddresses which has customer_id as a FK</li>
       </ul>
     </ol>
   </ol>
-      
+ <br>
   <li>Addresses: represents addresses that we deliver to (or addresses outside of our delivery area, which will not be able to order for delivery)</li>
   <ol>
     <li>*address_id (INT, starting from 1, incrementing by 1 each time)</li>
@@ -105,7 +105,7 @@ and we are defining the schema and protocol for doing so.
       <li>1:M with Addresses</li>
     </ol>
   </ol>
-
+ <br>
   <li>CustomerAddresses: represents the relationship between Customers and Addresses</li>
   <ol>
     <li>*address_id (INT, not NULL, FK)</li>
@@ -114,13 +114,13 @@ and we are defining the schema and protocol for doing so.
     <ol>
       <li>1:M Customers to CustomerAddresses</li>
       <li>1:M Addresses to CustomerAddresses</li>
-      <li>M:M CustomerAddresses to Items, resolved with:</li>
+      <li>M:M CustomerAddresses to Items, resolved with..</li>
       <ul>
         <li>1:M CustomerAddresses to SoldItems</li>
       </ul>
     </ol>
   </ol>
-  
+ <br>
   <li>Items: represents things that we sell. Can be any type of inventory item such as a comic book, trading card, collectible or miniature.</li>
   <ol>
     <li>*sku (varchar, not NULL, UNIQUE)</li>
@@ -129,13 +129,13 @@ and we are defining the schema and protocol for doing so.
     <li>price (decimal [6,2], not NULL)</li>
     <li>Relationships:</li>
     <ol>
-      <li>M:M with CustomerAddresses, resolved with…</li>
+      <li>M:M with CustomerAddresses, resolved with..</li>
       <ul>
         <li>1:M with SoldItems</li>
       </ul>
     </ol>
   </ol>
-  
+ <br>
   <li>SoldItems [Composite Entity]: represents the meeting point of the many-to-many relationship between items and customers. Used to track the purchase and delivery of individual items to individual customers.</li>
   <ol>
     <li>*purchase_number (varchar, not NULL)</li>
@@ -149,7 +149,7 @@ and we are defining the schema and protocol for doing so.
     <li>Relationships:</li>
     <ol>
       <li>1:M SoldItems to Items</li>
-      <li>M:M with Customers and Addresses, resolved with:</li>
+      <li>M:M with Customers and Addresses, resolved with..</li>
       <ul>
         <li>1:M CustomerAddresses to SoldItems</li>
       </ul>
@@ -158,3 +158,4 @@ and we are defining the schema and protocol for doing so.
   <li>SPECIAL NOTE: The primary key is the composite key of the purchase number (which is guaranteed to be unique to a given order, though the order processing is outside our database scope) and the sku (which is guaranteed to be unique to an item)</li>
   </ol>
 </ol>
+<br>
